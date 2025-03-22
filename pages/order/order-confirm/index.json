@@ -8,7 +8,6 @@
     "t-dialog": "tdesign-miniprogram/dialog/dialog",
     "t-textarea": "tdesign-miniprogram/textarea/textarea",
     "price": "/components/price/index",
-    "select-coupons": "../components/selectCoupons/selectCoupons",
     "no-goods": "../components/noGoods/noGoods",
     "t-image": "/components/webp-image/index",
     "address-card": "./components/address-card/index"

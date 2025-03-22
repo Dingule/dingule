@@ -132,13 +132,6 @@
       </view>
       <view class="border-bottom border-bottom-margin" />
       <view class="pay-item">
-        <text>发票</text>
-        <view class="pay-item__right" bindtap="onOrderInvoiceView">
-          <text class="order-no normal-color">{{invoiceType}}</text>
-          <view class="pay-item__right__copy">查看</view>
-        </view>
-      </view>
-      <view class="pay-item">
         <text>备注</text>
         <view class="pay-item__right">
           <text class="order-no normal-color">{{order.remark || '-'}}</text>

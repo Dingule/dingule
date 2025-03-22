@@ -75,7 +75,6 @@ TDesign 零售模版示例小程序采用 [TDesign 企业级设计体系小程�
     |-- model	//	mock 数据
     |-- pages
     |   |-- cart	//	购物车相关页面
-    |   |-- coupon	//	优惠券相关页面
     |   |-- goods	//	商品相关页面
     |   |-- home	//	首页
     |   |-- order	//	订单售后相关页面

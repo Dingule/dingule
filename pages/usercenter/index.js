@@ -16,10 +16,10 @@ const menuData = [
       type: 'address',
     },
     {
-      title: '优惠券',
+      title: '消息中心',
       tit: '',
       url: '',
-      type: 'coupon',
+      type: 'notification',
     },
   ],
   [
@@ -150,6 +150,16 @@ Page({
         wx.navigateTo({ url: '/pages/usercenter/address/list/index' });
         break;
       }
+      case 'notification': {
+        Toast({
+          context: this,
+          selector: '#t-toast',
+          message: '你点击了消息中心',
+          icon: '',
+          duration: 1000,
+        });
+        break;
+      }
       case 'service': {
         this.openMakePhone();
         break;
@@ -162,10 +172,6 @@ Page({
           icon: '',
           duration: 1000,
         });
-        break;
-      }
-      case 'coupon': {
-        wx.navigateTo({ url: '/pages/coupon/coupon-list/index' });
         break;
       }
       default: {

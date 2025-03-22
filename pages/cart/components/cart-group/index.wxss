@@ -48,16 +48,6 @@
   text-overflow: ellipsis;
   margin-left: 12rpx;
 }
-.cart-group .cart-store__content .get-coupon {
-  width: 112rpx;
-  height: 40rpx;
-  border-radius: 20rpx;
-  background-color: #ffecf9;
-  line-height: 40rpx;
-  text-align: center;
-  font-size: 26rpx;
-  color: #fa4126;
-}
 
 .cart-group .promotion-wrap {
   display: flex;

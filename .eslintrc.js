@@ -29,10 +29,7 @@ module.exports = {
     'class-name-casing': 'off',
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-debugger': 'error',
-    'no-unused-expressions': [
-      'error',
-      { allowShortCircuit: true, allowTernary: true },
-    ],
+    'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
     'no-empty-interface': 'off',
     'no-use-before-define': ['error', { functions: false }],
     'no-useless-constructor': 'error',
@@ -155,6 +152,6 @@ module.exports = {
         ignoreComments: false,
       },
     ],
-    'linebreak-style': ['warn', 'unix'],
+    'linebreak-style': ['warn', 'windows'],
   },
 };

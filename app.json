@@ -14,7 +14,6 @@
     "pages/goods/result/index",
     "pages/cart/index",
     "pages/order/order-confirm/index",
-    "pages/order/receipt/index",
     "pages/order/pay-result/index",
     "pages/order/order-list/index",
     "pages/order/order-detail/index",
@@ -23,12 +22,8 @@
     "pages/order/after-service-list/index",
     "pages/order/after-service-detail/index",
     "pages/goods/comments/create/index",
-    "pages/coupon/coupon-list/index",
-    "pages/coupon/coupon-detail/index",
-    "pages/coupon/coupon-activity-goods/index",
     "pages/order/fill-tracking-no/index",
     "pages/order/delivery-detail/index",
-    "pages/order/invoice/index",
     "pages/usercenter/name-edit/index"
   ],
   "tabBar": {
