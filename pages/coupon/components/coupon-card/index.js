@@ -24,7 +24,7 @@ Component({
   },
 
   observers: {
-    couponDTO: function (couponDTO) {
+    couponDTO(couponDTO) {
       if (!couponDTO) {
         return;
       }

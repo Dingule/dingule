@@ -29,7 +29,7 @@ Page({
     const target = e.currentTarget.dataset.type;
     const { orderNo } = this.data;
     if (target === 'home') {
-      wx.switchTab({ url: '/pages/home/home' });
+      wx.switchTab({ url: '/pages/home/index' });
     } else if (target === 'orderList') {
       wx.navigateTo({
         url: `/pages/order/order-list/index?orderNo=${orderNo}`,

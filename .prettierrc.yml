@@ -31,7 +31,7 @@ proseWrap: preserve
 # 根据显示样式决定 html 要不要折行
 htmlWhitespaceSensitivity: css
 # 换行符使用 lf
-endOfLine: lf
+endOfLine: crlf
 # 后缀文件名特有规则
 overrides:
   - files: '*.{wxss,less}'
@@ -47,3 +47,4 @@ overrides:
   - files: '*.wxs'
     options:
       parser: babel
+

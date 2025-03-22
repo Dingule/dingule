@@ -228,14 +228,6 @@ Page({
     this.changeQuantityService({ spuId, skuId, quantity }).then(() => this.refreshData());
   },
 
-  goCollect() {
-    /** 活动肯定有一个活动ID，用来获取活动banner，活动商品列表等 */
-    const promotionID = '123';
-    wx.navigateTo({
-      url: `/pages/promotion-detail/index?promotion_id=${promotionID}`,
-    });
-  },
-
   goGoodsDetail(e) {
     const { spuId, storeId } = e.detail.goods;
     wx.navigateTo({
@@ -289,6 +281,6 @@ Page({
     wx.navigateTo({ url: '/pages/order/order-confirm/index?type=cart' });
   },
   onGotoHome() {
-    wx.switchTab({ url: '/pages/home/home' });
+    wx.switchTab({ url: '/pages/home/index' });
   },
 });

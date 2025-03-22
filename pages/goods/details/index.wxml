@@ -143,11 +143,6 @@
       </view>
     </view>
   </goods-specs-popup>
-  <promotion-popup
-    list="{{list}}"
-    bind:closePromotionPopup="closePromotionPopup"
-    show="{{isShowPromotionPop}}"
-    bind:promotionChange="promotionChange"
-  />
+  <promotion-popup list="{{list}}" bind:closePromotionPopup="closePromotionPopup" show="{{isShowPromotionPop}}" />
 </view>
 <t-toast id="t-toast" />

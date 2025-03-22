@@ -74,7 +74,7 @@ Component({
                 this.triggerEvent('navigate');
                 wx.navigateTo({
                   url: this.properties.navigateUrl,
-                  success: function (res) {
+                  success(res) {
                     res.eventChannel.emit(navigateEvent, params);
                   },
                 });

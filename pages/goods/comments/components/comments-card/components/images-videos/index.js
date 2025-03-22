@@ -18,7 +18,7 @@ Component({
   },
 
   observers: {
-    resources: function (newVal) {
+    resources(newVal) {
       if (newVal.length <= 1) {
         this.setData({ classType: 'single' });
       } else if (newVal.length === 2) {

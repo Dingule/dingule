@@ -4,7 +4,7 @@
     "ignore": [],
     "include": []
   },
-  "cloudfunctionRoot": "cloud/",
+  "cloudfunctionRoot": "cloudfunction/",
   "setting": {
     "urlCheck": true,
     "es6": true,
@@ -42,7 +42,9 @@
     "disableUseStrict": false,
     "minifyWXML": true,
     "showES6CompileOption": false,
-    "useCompilerPlugins": false,
+    "useCompilerPlugins": [
+      "less"
+    ],
     "ignoreUploadUnusedFiles": true,
     "useStaticServer": true
   },
@@ -57,7 +59,7 @@
       "list": [
         {
           "name": "首页入口",
-          "pathName": "pages/home/home",
+          "pathName": "pages/home/index",
           "query": "",
           "scene": null
         },

@@ -1,4 +1,29 @@
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+#!/bin/sh
 
-exec < /dev/tty && npx git-cz --hook || true
+# 获取提交消息文件路径
+commit_msg_file=$1
+
+# 读取提交消息的第一行
+commit_msg=$(head -n 1 "$commit_msg_file")
+
+# 正则表达式，匹配类似于 feat: xxx 的格式
+pattern="^(feat|fix|docs|style|refactor|test|chore|perf|build|ci|revert): .+"
+
+# 检查提交消息是否符合格式
+if ! echo "$commit_msg" | grep -Eq "$pattern"; then
+  echo "提交信息格式不正确！请使用以下格式之一："
+  echo "feat: 描述"
+  echo "fix: 描述"
+  echo "docs: 描述"
+  echo "style: 描述"
+  echo "refactor: 描述"
+  echo "test: 描述"
+  echo "chore: 描述"
+  echo "perf: 描述"
+  echo "build: 描述"
+  echo "ci: 描述"
+  echo "revert: 描述"
+  echo "示例：feat: 添加登录功能"
+  exit 1
+fi

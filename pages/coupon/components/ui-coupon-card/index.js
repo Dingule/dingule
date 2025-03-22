@@ -68,7 +68,7 @@ Component({
   },
 
   observers: {
-    status: function (value) {
+    status(value) {
       let theme = 'primary';
       // 已过期或已使用的券 颜色置灰
       if (value === 'useless' || value === 'disabled') {

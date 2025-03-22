@@ -279,7 +279,7 @@ Page({
             });
           }
         },
-        fail: function (res) {
+        fail(res) {
           console.warn(`wx.chooseLocation fail: ${JSON.stringify(res)}`);
           if (res.errMsg !== 'chooseLocation:fail cancel') {
             Toast({

@@ -4,6 +4,12 @@ import Toast from 'tdesign-miniprogram/toast/index';
 const menuData = [
   [
     {
+      title: '购物车',
+      tit: '',
+      url: '',
+      type: 'cart',
+    },
+    {
       title: '收货地址',
       tit: '',
       url: '',
@@ -14,12 +20,6 @@ const menuData = [
       tit: '',
       url: '',
       type: 'coupon',
-    },
-    {
-      title: '积分',
-      tit: '',
-      url: '',
-      type: 'point',
     },
   ],
   [
@@ -99,7 +99,7 @@ Page({
     this.getVersionInfo();
   },
 
-  onShow() {
+  async onShow() {
     this.getTabBar().init();
     this.init();
   },
@@ -112,42 +112,40 @@ Page({
   },
 
   fetUseriInfoHandle() {
-    fetchUserCenter().then(
-      ({
+    fetchUserCenter().then(({ userInfo, countsData, orderTagInfos: orderInfo, customerServiceInfo }) => {
+      // eslint-disable-next-line no-unused-expressions
+      menuData?.[0].forEach((v) => {
+        countsData.forEach((counts) => {
+          if (counts.type === v.type) {
+            // eslint-disable-next-line no-param-reassign
+            v.tit = counts.num;
+          }
+        });
+      });
+      const info = orderTagInfos.map((v, index) => ({
+        ...v,
+        ...orderInfo[index],
+      }));
+      this.setData({
         userInfo,
-        countsData,
-        orderTagInfos: orderInfo,
+        menuData,
+        orderTagInfos: info,
         customerServiceInfo,
-      }) => {
-        // eslint-disable-next-line no-unused-expressions
-        menuData?.[0].forEach((v) => {
-          countsData.forEach((counts) => {
-            if (counts.type === v.type) {
-              // eslint-disable-next-line no-param-reassign
-              v.tit = counts.num;
-            }
-          });
-        });
-        const info = orderTagInfos.map((v, index) => ({
-          ...v,
-          ...orderInfo[index],
-        }));
-        this.setData({
-          userInfo,
-          menuData,
-          orderTagInfos: info,
-          customerServiceInfo,
-          currAuthStep: 2,
-        });
-        wx.stopPullDownRefresh();
-      },
-    );
+        currAuthStep: 2,
+      });
+      wx.stopPullDownRefresh();
+    });
   },
 
   onClickCell({ currentTarget }) {
     const { type } = currentTarget.dataset;
 
     switch (type) {
+      case 'cart': {
+        console.log('type :>> ', type);
+        wx.navigateTo({ url: '/pages/cart/index' });
+        break;
+      }
       case 'address': {
         wx.navigateTo({ url: '/pages/usercenter/address/list/index' });
         break;
@@ -161,16 +159,6 @@ Page({
           context: this,
           selector: '#t-toast',
           message: '你点击了帮助中心',
-          icon: '',
-          duration: 1000,
-        });
-        break;
-      }
-      case 'point': {
-        Toast({
-          context: this,
-          selector: '#t-toast',
-          message: '你点击了积分菜单',
           icon: '',
           duration: 1000,
         });

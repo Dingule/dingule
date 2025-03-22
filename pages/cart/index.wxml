@@ -6,7 +6,6 @@
     bindselectgoods="onGoodsSelect"
     bindselectstore="onStoreSelect"
     bindchangequantity="onQuantityChange"
-    bindgocollect="goCollect"
     bindgoodsclick="goGoodsDetail"
     bindclearinvalidgoods="clearInvalidGoods"
     binddelete="onGoodsDelete"

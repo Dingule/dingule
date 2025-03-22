@@ -79,7 +79,6 @@ TDesign 零售模版示例小程序采用 [TDesign 企业级设计体系小程�
     |   |-- goods	//	商品相关页面
     |   |-- home	//	首页
     |   |-- order	//	订单售后相关页面
-    |   |-- promotion-detail	//	营销活动页面
     |   |-- usercenter	//	个人中心及收货地址相关页面
     |-- services	//	请求接口
     |-- style	//	公共样式与iconfont

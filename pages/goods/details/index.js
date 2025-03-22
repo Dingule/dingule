@@ -14,9 +14,7 @@ const recLeftImg = `${imgPrefix}common/rec-left.png`;
 const recRightImg = `${imgPrefix}common/rec-right.png`;
 const obj2Params = (obj = {}, encode = false) => {
   const result = [];
-  Object.keys(obj).forEach((key) =>
-    result.push(`${key}=${encode ? encodeURIComponent(obj[key]) : obj[key]}`),
-  );
+  Object.keys(obj).forEach((key) => result.push(`${key}=${encode ? encodeURIComponent(obj[key]) : obj[key]}`));
 
   return result.join('&');
 };
@@ -52,7 +50,7 @@ Page({
     jumpArray: [
       {
         title: '首页',
-        url: '/pages/home/home',
+        url: '/pages/home/index',
         iconName: 'home',
       },
       {
@@ -158,10 +156,7 @@ Page({
     const skuItem = skuArray.filter((item) => {
       let status = true;
       (item.specInfo || []).forEach((subItem) => {
-        if (
-          !selectedSku[subItem.specId] ||
-          selectedSku[subItem.specId] !== subItem.specValueId
-        ) {
+        if (!selectedSku[subItem.specId] || selectedSku[subItem.specId] !== subItem.specValueId) {
           status = false;
         }
       });
@@ -249,8 +244,7 @@ Page({
       storeId: '1',
       spuId: this.data.spuId,
       goodsName: this.data.details.title,
-      skuId:
-        type === 1 ? this.data.skuList[0].skuId : this.data.selectItem.skuId,
+      skuId: type === 1 ? this.data.skuList[0].skuId : this.data.selectItem.skuId,
       available: this.data.details.available,
       price: this.data.details.minSalePrice,
       specInfo: this.data.details.specList?.map((item) => ({
@@ -294,13 +288,6 @@ Page({
     });
   },
 
-  promotionChange(e) {
-    const { index } = e.detail;
-    wx.navigateTo({
-      url: `/pages/promotion-detail/index?promotion_id=${index}`,
-    });
-  },
-
   showPromotionPopup() {
     this.setData({
       isShowPromotionPop: true,
@@ -311,15 +298,7 @@ Page({
     Promise.all([fetchGood(spuId), fetchActivityList()]).then((res) => {
       const [details, activityList] = res;
       const skuArray = [];
-      const {
-        skuList,
-        primaryImage,
-        isPutOnSale,
-        minSalePrice,
-        maxSalePrice,
-        maxLinePrice,
-        soldNum,
-      } = details;
+      const { skuList, primaryImage, isPutOnSale, minSalePrice, maxSalePrice, maxLinePrice, soldNum } = details;
       skuList.forEach((item) => {
         skuArray.push({
           skuId: item.skuId,
@@ -363,9 +342,7 @@ Page({
               userName: item.userName || '',
               commentScore: item.commentScore,
               commentContent: item.commentContent || '用户未填写评价',
-              userHeadUrl: item.isAnonymity
-                ? this.anonymityAvatar
-                : item.userHeadUrl || this.anonymityAvatar,
+              userHeadUrl: item.isAnonymity ? this.anonymityAvatar : item.userHeadUrl || this.anonymityAvatar,
             };
           }),
         };
@@ -398,14 +375,7 @@ Page({
       const code = 'Success';
       const data = await getGoodsDetailsCommentsCount();
       if (code.toUpperCase() === 'SUCCESS') {
-        const {
-          badCount,
-          commentCount,
-          goodCount,
-          goodRate,
-          hasImageCount,
-          middleCount,
-        } = data;
+        const { badCount, commentCount, goodCount, goodRate, hasImageCount, middleCount } = data;
         const nextState = {
           commentsStatistics: {
             badCount: parseInt(`${badCount}`),

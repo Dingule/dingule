@@ -103,11 +103,11 @@ export const wechatPayOrder = (payOrderInfo) => {
       package: payInfo.package,
       signType,
       paySign,
-      success: function () {
+      success() {
         paySuccess(payOrderInfo);
         resolve();
       },
-      fail: function (err) {
+      fail(err) {
         payFail(payOrderInfo, err.errMsg);
       },
     }); */

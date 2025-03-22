@@ -23,7 +23,6 @@
       navigation="{{navigation}}"
       imageProps="{{swiperImageProps}}"
       list="{{imgSrcs}}"
-      bind:click="navToActivityDetail"
     />
   </view>
 </view>
