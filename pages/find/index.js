@@ -20,7 +20,6 @@ Page({
 
   tabChangeHandle(e) {
     const { detail } = e;
-    console.log('e :>> ', detail);
 
     const targetSubject = this.data.subjects.find((item) => item.name === detail.value);
     this.setData({ subSubjects: targetSubject.children, scrollTop: 0 });
