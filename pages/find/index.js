@@ -1,24 +1,34 @@
-import { fetchHome } from '../../services/home/home';
+import { getSubjects } from '~/api/getSubjects';
 
 Page({
   data: {
-    tabList: [],
+    subjects: [], // 一级科目
+    subSubjects: [], // 二级科目
+    sideBarIndex: 1,
+    scrollTop: 0,
   },
 
-  onShow() {
+  async onShow() {
     this.getTabBar().init();
 
-    fetchHome().then(({ swiper, tabList }) => {
-      this.setData({
-        tabList,
-        imgSrcs: swiper,
-        pageLoading: false,
-      });
-      this.loadGoodsList(true);
+    // 按照 subject 字段去重
+    const subjectList = await getSubjects();
+    this.setData({
+      subjects: subjectList,
     });
   },
 
   tabChangeHandle(e) {
-    console.log('e :>> ', e);
+    const { detail } = e;
+    console.log('e :>> ', detail);
+
+    const targetSubject = this.data.subjects.find((item) => item.name === detail.value);
+    this.setData({ subSubjects: targetSubject.children, scrollTop: 0 });
+  },
+
+  onSideBarChange(e) {
+    const { value } = e.detail;
+    console.log('---', value);
+    this.setData({ sideBarIndex: value, scrollTop: 0 });
   },
 });

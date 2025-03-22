@@ -64,6 +64,12 @@
           "scene": null
         },
         {
+          "name": "发现页",
+          "pathName": "pages/find/index",
+          "query": "",
+          "scene": null
+        },
+        {
           "name": "示例页-商品分类",
           "pathName": "pages/goods/category/index",
           "query": "",

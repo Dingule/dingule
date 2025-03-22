@@ -1,1 +1,61 @@
 /* pages/index.wxss */
+@import '/variable.less';
+
+// 顶部导航
+.t-tabs {
+  background: #f5f5f5 !important;
+
+  .t-tabs-nav {
+    background-color: transparent;
+    line-height: 80rpx;
+    font-size: 28rpx;
+    color: #333;
+  }
+}
+
+.tabs-external__active {
+  color: #333333 !important;
+  font-size: 32rpx;
+}
+
+.t-tabs .t-tabs-scroll {
+  border: none !important;
+}
+
+.t-tabs.t-tabs--top .t-tabs__item,
+.t-tabs.t-tabs--bottom .t-tabs__item {
+  height: 86rpx !important;
+}
+
+.home-page-tabs {
+  --td-tab-nav-bg-color: transparent;
+  --td-tab-border-color: transparent;
+  --td-tab-track-color: red;
+}
+
+// 侧边栏
+.side-bar-wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+
+  --td-grid-item-text-font-size: 24rpx;
+
+  .content {
+    flex: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .section {
+    padding: 32rpx 0;
+    box-sizing: border-box;
+    height: 100%;
+  }
+
+  .title {
+    padding-left: 40rpx;
+    margin-bottom: 8rpx;
+    font-size: 28rpx;
+    line-height: 44rpx;
+  }
+}

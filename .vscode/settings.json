@@ -8,7 +8,7 @@
   },
   "[javascript]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
@@ -16,7 +16,6 @@
   "[wxss]": {
     "editor.defaultFormatter": "HookyQR.beautify"
   },
-  "wxmlConfig.onSaveFormat": true,
   "wxmlConfig.format": {
     "brace_style": "collapse",
     "indent_inner_html": true,

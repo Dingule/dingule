@@ -1,11 +1,39 @@
 <!-- pages/index.wxml -->
-<t-tabs
-  t-class="t-tabs"
-  t-class-active="tabs-external__active"
-  t-class-item="tabs-external__item"
-  defaultValue="{{0}}"
-  space-evenly="{{false}}"
-  bind:change="tabChangeHandle"
->
-  <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
-</t-tabs>
+<view class="home-page-tabs">
+  <t-tabs
+    t-class="t-tabs"
+    t-class-active="tabs-external__active"
+    defaultValue="{{0}}"
+    space-evenly="{{false}}"
+    bind:change="tabChangeHandle"
+  >
+    <t-tab-panel wx:for="{{subjects}}" wx:for-index="index" wx:key="index" label="{{item.name}}" value="{{item.name}}">
+      <view class="side-bar-wrapper">
+        <t-side-bar value="{{sideBarIndex}}" bind:change="onSideBarChange">
+          <t-side-bar-item
+            wx:for="{{subSubjects}}"
+            wx:for-item="subItem"
+            wx:key="label"
+            value="{{index}}"
+            label="{{subItem.name}}"
+          />
+        </t-side-bar>
+        <view class="content" style="transform: translateY(-{{sideBarIndex * 100}}%)">
+          <scroll-view
+            wx:for="{{subSubjects}}"
+            wx:for-item="subItem"
+            wx:key="value"
+            class="section"
+            scroll-y
+            scroll-top="{{scrollTop}}"
+            scroll-with-animation
+            show-scrollbar="{{false}}"
+          >
+            <view class="title">{{subItem.name}}</view>
+            <view>Hello SideBar</view>
+          </scroll-view>
+        </view>
+      </view>
+    </t-tab-panel>
+  </t-tabs>
+</view>
