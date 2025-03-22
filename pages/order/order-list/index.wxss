@@ -53,32 +53,6 @@
 .load-more {
   margin: 0 24rpx;
 }
-wr-order-goods-card:not(:first-child) .wr-goods-card {
-  margin-top: 40rpx;
-}
-
-.price-total {
-  font-size: 24rpx;
-  line-height: 32rpx;
-  color: #999999;
-  padding-top: 10rpx;
-  width: 100%;
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-}
-.price-total .bold-price {
-  color: #333333;
-  font-size: 28rpx;
-  line-height: 40rpx;
-  color: #333333;
-}
-.price-total .real-pay {
-  font-size: 36rpx;
-  line-height: 48rpx;
-  color: #fa4126;
-  font-weight: bold;
-}
 
 .t-tabs.t-tabs--top .t-tabs-scroll {
   border: none !important;
@@ -88,13 +62,6 @@ wr-order-goods-card:not(:first-child) .wr-goods-card {
   color: #999;
 }
 
-.page-container .order-number {
-  color: #666666;
-  font-size: 28rpx;
-}
-.t-class-indicator {
-  color: #b9b9b9 !important;
-}
 .tab-bar .tab-bar__active {
   color: #333333 !important;
 }

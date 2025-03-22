@@ -1,4 +1,3 @@
-import { fetchPerson } from '../../../services/usercenter/fetchPerson';
 import { phoneEncryption } from '../../../utils/util';
 import Toast from 'tdesign-miniprogram/toast/index';
 
@@ -30,12 +29,19 @@ Page({
   init() {
     this.fetchData();
   },
+  // 获取用户详细信息
   fetchData() {
-    fetchPerson().then((personInfo) => {
-      this.setData({
-        personInfo,
-        'personInfo.phoneNumber': phoneEncryption(personInfo.phoneNumber),
-      });
+    // TODO: 从后端获取用户信息
+    const personInfo = {
+      avatarUrl:
+        'https://we-retail-static-1300977798.cos.ap-guangzhou.myqcloud.com/retail-ui/components-exp/avatar/avatar-1.jpg',
+      nickName: 'TDesign',
+      phoneNumber: '13438358888',
+      gender: 2,
+    };
+    this.setData({
+      personInfo,
+      'personInfo.phoneNumber': phoneEncryption(personInfo.phoneNumber),
     });
   },
   onClickCell({ currentTarget }) {

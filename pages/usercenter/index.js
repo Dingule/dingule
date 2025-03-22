@@ -1,20 +1,7 @@
-import { fetchUserCenter } from '../../services/usercenter/fetchUsercenter';
 import Toast from 'tdesign-miniprogram/toast/index';
 
 const menuData = [
   [
-    {
-      title: '购物车',
-      tit: '',
-      url: '',
-      type: 'cart',
-    },
-    {
-      title: '收货地址',
-      tit: '',
-      url: '',
-      type: 'address',
-    },
     {
       title: '消息中心',
       tit: '',
@@ -80,9 +67,11 @@ const orderTagInfos = [
 const getDefaultData = () => ({
   showMakePhone: false,
   userInfo: {
-    avatarUrl: '',
-    nickName: '正在登录...',
-    phoneNumber: '',
+    avatarUrl:
+      'https://we-retail-static-1300977798.cos.ap-guangzhou.myqcloud.com/retail-ui/components-exp/avatar/avatar-1.jpg',
+    nickName: 'TDesign',
+    phoneNumber: '13438358888',
+    gender: 2,
   },
   menuData,
   orderTagInfos,
@@ -104,52 +93,16 @@ Page({
     this.init();
   },
   onPullDownRefresh() {
-    this.init();
-  },
-
-  init() {
-    this.fetUseriInfoHandle();
-  },
-
-  fetUseriInfoHandle() {
-    fetchUserCenter().then(({ userInfo, countsData, orderTagInfos: orderInfo, customerServiceInfo }) => {
-      // eslint-disable-next-line no-unused-expressions
-      menuData?.[0].forEach((v) => {
-        countsData.forEach((counts) => {
-          if (counts.type === v.type) {
-            // eslint-disable-next-line no-param-reassign
-            v.tit = counts.num;
-          }
-        });
-      });
-      const info = orderTagInfos.map((v, index) => ({
-        ...v,
-        ...orderInfo[index],
-      }));
-      this.setData({
-        userInfo,
-        menuData,
-        orderTagInfos: info,
-        customerServiceInfo,
-        currAuthStep: 2,
-      });
+    // 刷新个人中心数据
+    setTimeout(() => {
       wx.stopPullDownRefresh();
-    });
+    }, 1000);
   },
 
   onClickCell({ currentTarget }) {
     const { type } = currentTarget.dataset;
 
     switch (type) {
-      case 'cart': {
-        console.log('type :>> ', type);
-        wx.navigateTo({ url: '/pages/cart/index' });
-        break;
-      }
-      case 'address': {
-        wx.navigateTo({ url: '/pages/usercenter/address/list/index' });
-        break;
-      }
       case 'notification': {
         Toast({
           context: this,
@@ -187,6 +140,7 @@ Page({
     }
   },
 
+  // 跳转指定状态订单
   jumpNav(e) {
     const status = e.detail.tabType;
 
@@ -197,10 +151,12 @@ Page({
     }
   },
 
+  // 全部订单
   jumpAllOrder() {
     wx.navigateTo({ url: '/pages/order/order-list/index' });
   },
 
+  // 客服热线弹框
   openMakePhone() {
     this.setData({ showMakePhone: true });
   },

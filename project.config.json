@@ -58,7 +58,7 @@
     "miniprogram": {
       "list": [
         {
-          "name": "首页入口",
+          "name": "首页",
           "pathName": "pages/home/index",
           "query": "",
           "scene": null
@@ -70,69 +70,15 @@
           "scene": null
         },
         {
-          "name": "示例页-商品分类",
-          "pathName": "pages/goods/category/index",
+          "name": "消息",
+          "pathName": "pages/message/index",
           "query": "",
           "scene": null
         },
         {
-          "name": "示例页-个人中心",
+          "name": "个人中心",
           "pathName": "pages/usercenter/index",
           "query": "",
-          "scene": null
-        },
-        {
-          "name": "示例页-商品列表",
-          "pathName": "pages/goods/list/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "示例页-商品详情",
-          "pathName": "pages/goods/details/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "示例页-商品评论",
-          "pathName": "pages/goods/comments/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "示例页-售后列表",
-          "pathName": "pages/order/after-service-list/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "示例页-售后详情",
-          "pathName": "pages/order/after-service-detail/index",
-          "query": "rightsNo=123123423",
-          "scene": null
-        },
-        {
-          "name": "示例页-搜索页",
-          "pathName": "pages/goods/search/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "示例页-搜索结果",
-          "pathName": "pages/goods/result/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "示例页-商品评价",
-          "pathName": "pages/goods/comments/create/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "示例页-申请售后",
-          "pathName": "pages/order/apply-service/index",
-          "query": "orderNo=132222623132329291&skuId=135691625",
           "scene": null
         }
       ]

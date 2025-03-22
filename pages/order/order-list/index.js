@@ -1,9 +1,4 @@
 import { OrderStatus } from '../config';
-import {
-  fetchOrders,
-  fetchOrdersCount,
-} from '../../../services/order/orderList';
-import { cosThumb } from '../../../utils/util';
 
 Page({
   page: {
@@ -23,8 +18,7 @@ Page({
     orderList: [],
     listLoading: 0,
     pullDownRefreshing: false,
-    emptyImg:
-      'https://cdn-we-retail.ym.tencent.com/miniapp/order/empty-order-list.png',
+    emptyImg: 'https://cdn-we-retail.ym.tencent.com/miniapp/order/empty-order-list.png',
     backRefresh: false,
     status: -1,
   },
@@ -44,7 +38,7 @@ Page({
 
   onReachBottom() {
     if (this.data.listLoading === 0) {
-      this.getOrderList(this.data.curTab);
+      // this.getOrderList(this.data.curTab);
     }
   },
 
@@ -74,68 +68,11 @@ Page({
     this.refreshList(status);
   },
 
-  getOrderList(statusCode = -1, reset = false) {
-    const params = {
-      parameter: {
-        pageSize: this.page.size,
-        pageNum: this.page.num,
-      },
-    };
-    if (statusCode !== -1) params.parameter.orderStatus = statusCode;
-    this.setData({ listLoading: 1 });
-    return fetchOrders(params)
-      .then((res) => {
-        this.page.num++;
-        let orderList = [];
-        if (res && res.data && res.data.orders) {
-          orderList = (res.data.orders || []).map((order) => {
-            return {
-              id: order.orderId,
-              orderNo: order.orderNo,
-              parentOrderNo: order.parentOrderNo,
-              storeId: order.storeId,
-              storeName: order.storeName,
-              status: order.orderStatus,
-              statusDesc: order.orderStatusName,
-              amount: order.paymentAmount,
-              totalAmount: order.totalAmount,
-              logisticsNo: order.logisticsVO.logisticsNo,
-              createTime: order.createTime,
-              goodsList: (order.orderItemVOs || []).map((goods) => ({
-                id: goods.id,
-                thumb: cosThumb(goods.goodsPictureUrl, 70),
-                title: goods.goodsName,
-                skuId: goods.skuId,
-                spuId: goods.spuId,
-                specs: (goods.specifications || []).map(
-                  (spec) => spec.specValue,
-                ),
-                price: goods.tagPrice ? goods.tagPrice : goods.actualPrice,
-                num: goods.buyQuantity,
-                titlePrefixTags: goods.tagText ? [{ text: goods.tagText }] : [],
-              })),
-              buttons: order.buttonVOs || [],
-              groupInfoVo: order.groupInfoVo,
-              freightFee: order.freightFee,
-            };
-          });
-        }
-        return new Promise((resolve) => {
-          if (reset) {
-            this.setData({ orderList: [] }, () => resolve());
-          } else resolve();
-        }).then(() => {
-          this.setData({
-            orderList: this.data.orderList.concat(orderList),
-            listLoading: orderList.length > 0 ? 0 : 2,
-          });
-        });
-      })
-      .catch((err) => {
-        this.setData({ listLoading: 3 });
-        return Promise.reject(err);
-      });
-  },
+  /**
+   * 获取订单列表
+   * @param {number} statusCode 订单状态码
+   */
+  getOrderList() {},
 
   onReTryLoad() {
     this.getOrderList(this.data.curTab);
@@ -149,19 +86,10 @@ Page({
     this.refreshList(value);
   },
 
-  getOrdersCount() {
-    return fetchOrdersCount().then((res) => {
-      const tabsCount = res.data || [];
-      const { tabs } = this.data;
-      tabs.forEach((tab) => {
-        const tabCount = tabsCount.find((c) => c.tabType === tab.key);
-        if (tabCount) {
-          tab.info = tabCount.orderNum;
-        }
-      });
-      this.setData({ tabs });
-    });
-  },
+  /**
+   * 获取各个状态订单数量
+   */
+  getOrdersCount() {},
 
   refreshList(status = -1) {
     this.page = {
@@ -170,10 +98,7 @@ Page({
     };
     this.setData({ curTab: status, orderList: [] });
 
-    return Promise.all([
-      this.getOrderList(status, true),
-      this.getOrdersCount(),
-    ]);
+    return Promise.all([this.getOrderList(status, true), this.getOrdersCount()]);
   },
 
   onRefresh() {
@@ -181,9 +106,6 @@ Page({
   },
 
   onOrderCardTap(e) {
-    const { order } = e.currentTarget.dataset;
-    wx.navigateTo({
-      url: `/pages/order/order-detail/index?orderNo=${order.orderNo}`,
-    });
+    console.log('点击了订单', e);
   },
 });
