@@ -16,6 +16,9 @@
   "[wxss]": {
     "editor.defaultFormatter": "HookyQR.beautify"
   },
+  "[wxml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "wxmlConfig.format": {
     "brace_style": "collapse",
     "indent_inner_html": true,
