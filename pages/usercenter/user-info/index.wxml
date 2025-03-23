@@ -25,7 +25,7 @@
       title="位置"
       hover
       required
-      note="{{userLocation.name || '选择您偏好的上课地点'}}"
+      note="{{userLocation.name || '选择您偏好的授课地点'}}"
       right-icon="location"
       data-type="location"
       bind:click="onClickCell"
@@ -41,8 +41,32 @@
   </t-cell-group>
 </view>
 <view class="user-info__wrapper">
+  <t-button block shape="round" bind:tap="onConfirm">保存</t-button>
   <view class="user-info__btn" bind:tap="openUnbindConfirm"> 切换账号登录 </view>
 </view>
+
+<t-dialog
+  visible="{{usernameDialogVisible}}"
+  title="用户昵称"
+  content="为更好的使用本系统提供的服务，请填写真实姓名或恰当的昵称"
+  confirm-btn="确定"
+  cancel-btn="取消"
+  bind:confirm="closeUsernameDialog"
+  bind:cancel="closeUsernameDialog"
+>
+  <t-input
+    borderless
+    class="dialog-input"
+    maxlength="{{12}}"
+    value="{{tempUsername}}"
+    slot="content"
+    placeholder="请输入昵称"
+    clearable
+    type="nickname"
+    bind:change="onUsernameChange"
+  />
+</t-dialog>
+
 <t-select-picker
   show="{{genderPickerVisible}}"
   picker-options="{{pickerOptions}}"

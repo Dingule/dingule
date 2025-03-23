@@ -3,6 +3,7 @@ import Toast from 'tdesign-miniprogram/toast/index';
 
 Page({
   data: {
+    tempUsername: '',
     personInfo: {
       avatarUrl: '',
       nickName: '',
@@ -15,6 +16,7 @@ Page({
       latitude: 0,
       longitude: 0,
     },
+    usernameDialogVisible: false,
     showUnbindConfirm: false,
     pickerOptions: [
       {
@@ -78,12 +80,11 @@ Page({
 
   async onClickCell({ currentTarget }) {
     const { dataset } = currentTarget;
-    const { nickName } = this.data.personInfo;
-
     switch (dataset.type) {
       case 'name':
-        wx.navigateTo({
-          url: `/pages/usercenter/name-edit/index?name=${nickName}`,
+        this.setData({
+          usernameDialogVisible: true,
+          tempUsername: this.data.personInfo.nickName,
         });
         break;
       case 'gender':
@@ -157,6 +158,20 @@ Page({
       },
     );
   },
+
+  // 用户昵称对话框
+  closeUsernameDialog(e) {
+    if (e.type === 'confirm') {
+      this.setData({
+        'personInfo.nickName': this.data.tempUsername,
+      });
+    }
+    this.setData({ usernameDialogVisible: false });
+  },
+  onUsernameChange(e) {
+    this.setData({ tempUsername: e.detail.value });
+  },
+
   async toModifyAvatar() {
     try {
       const tempFilePath = await new Promise((resolve, reject) => {
