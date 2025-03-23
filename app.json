@@ -4,6 +4,7 @@
     "pages/find/index",
     "pages/message/index",
     "pages/usercenter/index",
+    "pages/order/order-list/index",
     "pages/usercenter/person-info/index",
     "pages/usercenter/name-edit/index"
   ],

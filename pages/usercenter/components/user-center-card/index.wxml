@@ -3,7 +3,7 @@
   <block wx:if="{{currAuthStep === AuthStepType.ONE}}">
     <view class="user-center-card__header" bind:tap="gotoUserEditPage">
       <t-avatar image="{{userInfo.avatarUrl || defaultAvatarUrl}}" class="user-center-card__header__avatar" />
-      <view class="user-center-card__header__name">{{'请登录'}}</view>
+      <view class="user-center-card__header__name">{{'登录/注册'}}</view>
     </view>
   </block>
   <!-- 已登录但未授权用户信息情况 -->

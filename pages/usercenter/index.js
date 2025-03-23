@@ -64,25 +64,23 @@ const orderTagInfos = [
   },
 ];
 
-const getDefaultData = () => ({
-  showMakePhone: false,
-  userInfo: {
-    avatarUrl:
-      'https://we-retail-static-1300977798.cos.ap-guangzhou.myqcloud.com/retail-ui/components-exp/avatar/avatar-1.jpg',
-    nickName: 'TDesign',
-    phoneNumber: '13438358888',
-    gender: 2,
-  },
-  menuData,
-  orderTagInfos,
-  customerServiceInfo: {},
-  currAuthStep: 1,
-  showKefu: true,
-  versionNo: '',
-});
-
 Page({
-  data: getDefaultData(),
+  data: {
+    showMakePhone: false,
+    userInfo: {
+      avatarUrl:
+        'https://we-retail-static-1300977798.cos.ap-guangzhou.myqcloud.com/retail-ui/components-exp/avatar/avatar-1.jpg',
+      nickName: 'TDesign',
+      phoneNumber: '13438358888',
+      gender: 2,
+    },
+    menuData,
+    orderTagInfos,
+    customerServiceInfo: {},
+    currAuthStep: 1,
+    showKefu: true,
+    versionNo: '',
+  },
 
   onLoad() {
     this.getVersionInfo();
@@ -90,7 +88,6 @@ Page({
 
   async onShow() {
     this.getTabBar().init();
-    this.init();
   },
   onPullDownRefresh() {
     // 刷新个人中心数据

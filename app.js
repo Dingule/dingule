@@ -23,9 +23,13 @@ App({
 
   onShow() {
     updateManager(); // 检查更新
+
+    // 检查用户是否已授权
+    this.login();
   },
 
   globalData: {
+    isLogin: false,
     userInfo: null,
     unreadNum: 0, // 未读消息数量
     socket: null, // SocketTask 对象
@@ -35,6 +39,12 @@ App({
 
   /** 全局事件总线 */
   eventBus: createBus(),
+
+  async login() {
+    const res = await wx.cloud.callFunction({ name: 'login' });
+    console.log('res :>> ', res.result);
+    this.globalData.isLogin = Boolean(res.result?.success);
+  },
 
   /** 初始化 WebSocket */
   connect() {

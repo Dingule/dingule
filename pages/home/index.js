@@ -16,14 +16,12 @@ Page({
     });
     setTimeout(() => {
       this.setData({
-        pageLoading: true,
+        pageLoading: false,
       });
     }, 1000);
   },
 
-  onLoad() {
-    this.init();
-  },
+  onLoad() {},
 
   onReachBottom() {
     Toast({

@@ -13,7 +13,7 @@
 </view>
 <view class="home-page-container">
   <view>
-    <h1>Hello Home</h1>
+    <t-button theme="primary" size="large">Home Sweet Home</t-button>
   </view>
   <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
   <t-toast id="t-toast" />
