@@ -1,4 +1,5 @@
 import Toast from 'tdesign-miniprogram/toast/index';
+const app = getApp();
 
 const menuData = [
   [
@@ -66,6 +67,7 @@ const orderTagInfos = [
 
 Page({
   data: {
+    isLogin: false,
     showMakePhone: false,
     userInfo: {
       avatarUrl:
@@ -77,7 +79,6 @@ Page({
     menuData,
     orderTagInfos,
     customerServiceInfo: {},
-    currAuthStep: 1,
     showKefu: true,
     versionNo: '',
   },
@@ -88,7 +89,14 @@ Page({
 
   async onShow() {
     this.getTabBar().init();
+
+    if (app.globalData.isLogin) {
+      this.fetchUserInfo();
+    }
+
+    this.setData({ isLogin: app.globalData.isLogin });
   },
+
   onPullDownRefresh() {
     // 刷新个人中心数据
     setTimeout(() => {
@@ -137,20 +145,52 @@ Page({
     }
   },
 
-  // 跳转指定状态订单
-  jumpNav(e) {
-    const status = e.detail.tabType;
-
-    if (status === 0) {
-      wx.navigateTo({ url: '/pages/order/after-service-list/index' });
-    } else {
-      wx.navigateTo({ url: `/pages/order/order-list/index?status=${status}` });
+  // 首次登录注册获取用户手机回调
+  async getPhoneNumber(e) {
+    if (!e.detail) {
+      return;
     }
+    const phoneRes = await wx.cloud.callFunction({
+      name: 'getPhoneNumber',
+      data: { code: e.detail.code },
+    });
+
+    if (!phoneRes.result.success) {
+      Toast({
+        context: this,
+        selector: '#t-toast',
+        message: phoneRes.errMsg,
+        direction: 'column',
+        icon: 'error-circle',
+      });
+      return;
+    }
+    const { phoneNumber } = phoneRes.result.data;
+    app.globalData.userInfo.phoneNumber = phoneNumber;
+
+    // 获取到手机号后跳转个人信息编辑页
+    this.gotoUserEditPage(phoneNumber);
   },
 
-  // 全部订单
-  jumpAllOrder() {
-    wx.navigateTo({ url: '/pages/order/order-list/index' });
+  // 跳转指定状态订单或全部订单
+  jumpOrderList(e) {
+    if (!this.data.isLogin) {
+      Toast({
+        context: this,
+        selector: '#t-toast',
+        message: '请先登录',
+        direction: 'column',
+        icon: 'error-circle',
+      });
+      return;
+    }
+
+    const status = e.detail.tabType;
+    if (typeof status === 'number') {
+      wx.navigateTo({ url: `/pages/order/order-list/index?status=${status}` });
+    } else {
+      wx.navigateTo({ url: '/pages/order/order-list/index' });
+    }
   },
 
   // 客服热线弹框
@@ -168,13 +208,8 @@ Page({
     });
   },
 
-  gotoUserEditPage() {
-    const { currAuthStep } = this.data;
-    if (currAuthStep === 2) {
-      wx.navigateTo({ url: '/pages/usercenter/person-info/index' });
-    } else {
-      this.fetUseriInfoHandle();
-    }
+  gotoUserEditPage(number = '') {
+    wx.navigateTo({ url: `/pages/usercenter/user-info/index${number ? `?number=${number}` : ''}` });
   },
 
   getVersionInfo() {

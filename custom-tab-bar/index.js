@@ -9,7 +9,6 @@ Component({
       const curPage = pages[pages.length - 1];
       if (curPage) {
         const nameRe = /pages\/(\w+)\/index/.exec(curPage.route);
-        console.log('nameRe :>> ', nameRe);
         if (nameRe === null) return;
         if (nameRe[1] && nameRe) {
           this.setData({

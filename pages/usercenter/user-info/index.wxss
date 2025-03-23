@@ -4,11 +4,11 @@
 page view {
   box-sizing: border-box;
 }
-.person-info {
+.user-info {
   padding-top: 20rpx;
 }
 
-.person-info__btn {
+.user-info__btn {
   width: 100%;
   border: 2rpx solid #ddd;
   border-radius: 48rpx;
@@ -17,7 +17,7 @@ page view {
   align-self: center;
   justify-content: center;
 }
-.person-info__wrapper {
+.user-info__wrapper {
   width: 100%;
   padding: 0 32rpx;
   padding-bottom: calc(env(safe-area-inset-bottom) + 20rpx);
@@ -37,9 +37,9 @@ page view {
   color: #fa550f !important;
 }
 
-.person-info .order-group__left {
+.user-info .order-group__left {
   margin-right: 0;
 }
-.person-info .t-cell-class {
+.user-info .t-cell-class {
   height: 112rpx;
 }

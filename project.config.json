@@ -80,6 +80,11 @@
           "pathName": "pages/usercenter/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "个人信息",
+          "pathName": "pages/usercenter/user-info/index",
+          "query": "number=18931993361"
         }
       ]
     }

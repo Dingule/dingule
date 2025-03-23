@@ -20,11 +20,13 @@ Page({
         code: '2',
       },
     ],
-    typeVisible: false,
+    genderPickerVisible: false,
     genderMap: ['', '男', '女'],
   },
-  onLoad() {
+  onLoad(options) {
     this.init();
+
+    console.log('option.query :>> ', options);
   },
   init() {
     this.fetchData();
@@ -51,7 +53,7 @@ Page({
     switch (dataset.type) {
       case 'gender':
         this.setData({
-          typeVisible: true,
+          genderPickerVisible: true,
         });
         break;
       case 'name':
@@ -67,16 +69,23 @@ Page({
       }
     }
   },
+
+  // 首次登录注册信息
+  register() {
+    // 注册成功后返回上一页
+    wx.navigateBack();
+  },
+
   onClose() {
     this.setData({
-      typeVisible: false,
+      genderPickerVisible: false,
     });
   },
   onConfirm(e) {
     const { value } = e.detail;
     this.setData(
       {
-        typeVisible: false,
+        genderPickerVisible: false,
         'personInfo.gender': value,
       },
       () => {

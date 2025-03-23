@@ -30,7 +30,7 @@ App({
 
   globalData: {
     isLogin: false,
-    userInfo: null,
+    userInfo: {},
     unreadNum: 0, // 未读消息数量
     socket: null, // SocketTask 对象
   },
@@ -42,7 +42,6 @@ App({
 
   async login() {
     const res = await wx.cloud.callFunction({ name: 'login' });
-    console.log('res :>> ', res.result);
     this.globalData.isLogin = Boolean(res.result?.success);
   },
 

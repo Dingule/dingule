@@ -1,4 +1,4 @@
-<view class="person-info">
+<view class="user-info">
   <t-cell-group>
     <t-cell
       title="头像"
@@ -40,11 +40,11 @@
     />
   </t-cell-group>
 </view>
-<view class="person-info__wrapper">
-  <view class="person-info__btn" bind:tap="openUnbindConfirm"> 切换账号登录 </view>
+<view class="user-info__wrapper">
+  <view class="user-info__btn" bind:tap="openUnbindConfirm"> 切换账号登录 </view>
 </view>
 <t-select-picker
-  show="{{typeVisible}}"
+  show="{{genderPickerVisible}}"
   picker-options="{{pickerOptions}}"
   title="选择性别"
   value="{{personInfo.gender}}"
