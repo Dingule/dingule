@@ -1,42 +1,42 @@
 <view class="user-info">
   <t-cell-group>
-    <t-cell
-      title="头像"
-      center="{{true}}"
-      data-type="avatarUrl"
-      bind:click="onClickCell"
-      arrow
-      t-class-left="order-group__left"
-    >
+    <t-cell title="头像" center="{{true}}" data-type="avatarUrl" bind:click="onClickCell" arrow>
       <t-image slot="note" src="{{personInfo.avatarUrl}}" t-class="avatarUrl" mode="aspectFill" />
     </t-cell>
     <t-cell
       title="昵称"
       arrow
-      note="{{personInfo.nickName}}"
+      hover
+      required
+      note="{{personInfo.nickName || '请填写'}}"
       data-type="name"
       bind:click="onClickCell"
-      t-class="t-cell-class"
-      t-class-left="order-group__left"
     />
     <t-cell
       title="性别"
       arrow
+      hover
+      required
       note="{{genderMap[personInfo.gender]}}"
       data-type="gender"
       bind:click="onClickCell"
-      t-class="t-cell-class"
-      t-class-left="order-group__left"
+    />
+    <t-cell
+      title="位置"
+      hover
+      required
+      note="{{userLocation.name || '选择您偏好的上课地点'}}"
+      right-icon="location"
+      data-type="location"
+      bind:click="onClickCell"
     />
     <t-cell
       bordered="{{false}}"
       title="手机号"
-      arrow
+      required
       note="{{personInfo.phoneNumber ? personInfo.phoneNumber : '去绑定手机号'}}"
       data-type="phoneNumber"
       bind:click="onClickCell"
-      t-class="t-cell-class"
-      t-class-left="order-group__left"
     />
   </t-cell-group>
 </view>

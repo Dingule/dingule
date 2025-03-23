@@ -7,30 +7,37 @@ Page({
       avatarUrl: '',
       nickName: '',
       gender: 0,
-      phoneNumber: '',
+      phoneNumber: '13438358888',
+    },
+    userLocation: {
+      name: '',
+      address: '',
+      latitude: 0,
+      longitude: 0,
     },
     showUnbindConfirm: false,
     pickerOptions: [
       {
-        name: '男',
+        name: '先生',
         code: '1',
       },
       {
-        name: '女',
+        name: '女士',
         code: '2',
       },
     ],
     genderPickerVisible: false,
-    genderMap: ['', '男', '女'],
+    genderMap: ['请选择', '先生', '女士'],
   },
   onLoad(options) {
-    this.init();
+    this.fetchData();
 
+    this.getLocation();
     console.log('option.query :>> ', options);
   },
-  init() {
-    this.fetchData();
-  },
+
+  onShow() {},
+
   // 获取用户详细信息
   fetchData() {
     // TODO: 从后端获取用户信息
@@ -39,28 +46,80 @@ Page({
         'https://we-retail-static-1300977798.cos.ap-guangzhou.myqcloud.com/retail-ui/components-exp/avatar/avatar-1.jpg',
       nickName: 'TDesign',
       phoneNumber: '13438358888',
-      gender: 2,
+      gender: 0,
     };
     this.setData({
       personInfo,
       'personInfo.phoneNumber': phoneEncryption(personInfo.phoneNumber),
     });
   },
-  onClickCell({ currentTarget }) {
+
+  // 获取用户地理位置
+  async getLocation() {
+    // 检查用户是否授权获取地理位置
+    const settingRes = await wx.getSetting();
+    if (!settingRes.authSetting['scope.userLocation']) {
+      // 未授权，请求授权
+      const authRes = await wx.authorize({
+        scope: 'scope.userLocation',
+      });
+      console.log('authRes :>> ', authRes);
+    }
+
+    const locationRes = await wx.getLocation({ type: 'gcj02' });
+    const { latitude, longitude } = locationRes;
+    this.setData({
+      userLocation: {
+        latitude,
+        longitude,
+      },
+    });
+  },
+
+  async onClickCell({ currentTarget }) {
     const { dataset } = currentTarget;
     const { nickName } = this.data.personInfo;
 
     switch (dataset.type) {
-      case 'gender':
-        this.setData({
-          genderPickerVisible: true,
-        });
-        break;
       case 'name':
         wx.navigateTo({
           url: `/pages/usercenter/name-edit/index?name=${nickName}`,
         });
         break;
+      case 'gender':
+        this.setData({
+          genderPickerVisible: true,
+        });
+        break;
+      case 'location': {
+        try {
+          const selectedLocation = await wx.chooseLocation({
+            ...this.data.userLocation,
+          });
+          const { name, address, latitude, longitude } = selectedLocation;
+
+          // 用户未选中具体地址就点击确定
+          if (!name) {
+            Toast({
+              context: this,
+              selector: '#t-toast',
+              message: '请选择具体地址',
+              theme: 'warning',
+            });
+            break;
+          }
+          this.setData({
+            userLocation: {
+              name,
+              address,
+              latitude,
+              longitude,
+            },
+          });
+        } catch (error) {}
+
+        break;
+      }
       case 'avatarUrl':
         this.toModifyAvatar();
         break;
