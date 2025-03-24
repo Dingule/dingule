@@ -1,8 +1,11 @@
 import { phoneEncryption } from '../../../utils/util';
 import Toast from 'tdesign-miniprogram/toast/index';
 
+const app = getApp();
+
 Page({
   data: {
+    isLogin: false,
     tempUsername: '',
     personInfo: {
       avatarUrl: '',
@@ -17,31 +20,32 @@ Page({
       longitude: 0,
     },
     usernameDialogVisible: false,
-    showUnbindConfirm: false,
-    pickerOptions: [
+    genderOptions: [
       {
-        name: '先生',
-        code: '1',
+        label: '先生',
+        value: 1,
       },
       {
-        name: '女士',
-        code: '2',
+        label: '女士',
+        value: 2,
       },
     ],
-    genderPickerVisible: false,
-    genderMap: ['请选择', '先生', '女士'],
+    birthPickerVisible: false,
+    birthFilter: (type, options) => (type === 'year' ? options.sort((a, b) => a.value - b.value) : options),
   },
   onLoad(options) {
-    this.fetchData();
+    this.fetchUserData();
 
     this.getLocation();
     console.log('option.query :>> ', options);
   },
 
-  onShow() {},
+  onShow() {
+    this.setData({ isLogin: app.globalData.isLogin });
+  },
 
   // 获取用户详细信息
-  fetchData() {
+  fetchUserData() {
     // TODO: 从后端获取用户信息
     const personInfo = {
       avatarUrl:
@@ -87,40 +91,14 @@ Page({
           tempUsername: this.data.personInfo.nickName,
         });
         break;
-      case 'gender':
+      case 'birth':
         this.setData({
-          genderPickerVisible: true,
+          birthPickerVisible: true,
         });
         break;
-      case 'location': {
-        try {
-          const selectedLocation = await wx.chooseLocation({
-            ...this.data.userLocation,
-          });
-          const { name, address, latitude, longitude } = selectedLocation;
-
-          // 用户未选中具体地址就点击确定
-          if (!name) {
-            Toast({
-              context: this,
-              selector: '#t-toast',
-              message: '请选择具体地址',
-              theme: 'warning',
-            });
-            break;
-          }
-          this.setData({
-            userLocation: {
-              name,
-              address,
-              latitude,
-              longitude,
-            },
-          });
-        } catch (error) {}
-
+      case 'location':
+        this.toChooseLocation();
         break;
-      }
       case 'avatarUrl':
         this.toModifyAvatar();
         break;
@@ -136,27 +114,9 @@ Page({
     wx.navigateBack();
   },
 
-  onClose() {
-    this.setData({
-      genderPickerVisible: false,
-    });
-  },
-  onConfirm(e) {
-    const { value } = e.detail;
-    this.setData(
-      {
-        genderPickerVisible: false,
-        'personInfo.gender': value,
-      },
-      () => {
-        Toast({
-          context: this,
-          selector: '#t-toast',
-          message: '设置成功',
-          theme: 'success',
-        });
-      },
-    );
+  onGenderChange(e) {
+    console.log('e.detail.value :>> ', e.detail.value);
+    this.setData({ 'personInfo.gender': e.detail.value });
   },
 
   // 用户昵称对话框
@@ -172,6 +132,28 @@ Page({
     this.setData({ tempUsername: e.detail.value });
   },
 
+  // 选择地理位置
+  async toChooseLocation() {
+    try {
+      const selectedLocation = await wx.chooseLocation({
+        ...this.data.userLocation,
+      });
+      const { name, address, latitude, longitude } = selectedLocation;
+
+      this.setData({
+        userLocation: {
+          name,
+          address,
+          latitude,
+          longitude,
+        },
+      });
+    } catch (error) {
+      // 用户取消选择，无需处理
+    }
+  },
+
+  // 修改头像
   async toModifyAvatar() {
     try {
       const tempFilePath = await new Promise((resolve, reject) => {
@@ -207,5 +189,12 @@ Page({
         theme: 'error',
       });
     }
+  },
+
+  onBirthPickerChange(e) {
+    this.setData({ 'personInfo.birth': e.detail.value });
+  },
+  hideBirthPicker() {
+    this.setData({ birthPickerVisible: false });
   },
 });

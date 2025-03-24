@@ -3,23 +3,11 @@
 }
 page view {
   box-sizing: border-box;
-  --td-input-bg-color: #f3f3f3;
-  --td-button-default-color: #333;
 }
 .user-info {
   padding-top: 20rpx;
 }
 
-.user-info__btn {
-  width: 100%;
-  border: 2rpx solid #ddd;
-  border-radius: 48rpx;
-  padding: 18rpx 0;
-  display: flex;
-  align-self: center;
-  justify-content: center;
-  margin-top: 24rpx;
-}
 .user-info__wrapper {
   width: 100%;
   padding: 0 32rpx;
@@ -27,6 +15,21 @@ page view {
   position: absolute;
   bottom: 0;
   left: 0;
+}
+
+.info-edit__cell {
+  .t-cell__title {
+    flex: none;
+    width: 162rpx;
+  }
+}
+
+.info-edit__gender {
+  --td-radio-vertical-padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 24rpx;
 }
 
 .avatarUrl {
