@@ -1,5 +1,5 @@
 import { phoneEncryption } from '../../../utils/util';
-import Toast from 'tdesign-miniprogram/toast/index';
+import Toast, { hideToast } from 'tdesign-miniprogram/toast/index';
 
 const app = getApp();
 
@@ -8,10 +8,13 @@ Page({
     isLogin: false,
     tempUsername: '',
     personInfo: {
-      avatarUrl: '',
-      nickName: '',
+      avatar: '',
+      avatar_file_id: '',
+      birth: '',
       gender: 0,
-      phoneNumber: '13438358888',
+      nickname: '',
+      phoneNumber: '', // 默认值为空
+      encryptedNumber: '', // 加密后的手机号
     },
     userLocation: {
       name: '',
@@ -33,31 +36,49 @@ Page({
     birthPickerVisible: false,
     birthFilter: (type, options) => (type === 'year' ? options.sort((a, b) => a.value - b.value) : options),
   },
+
   onLoad(options) {
-    this.fetchUserData();
+    if (app.globalData.isLogin) {
+      this.initUserDataFromStorage();
+    } else {
+      const phoneNumber = options.number || '';
+      this.setData({
+        isLogin: app.globalData.isLogin,
+        'personInfo.phoneNumber': phoneNumber,
+        'personInfo.encryptedNumber': phoneEncryption(phoneNumber),
+      });
 
-    this.getLocation();
-    console.log('option.query :>> ', options);
+      this.getLocation();
+    }
   },
 
-  onShow() {
-    this.setData({ isLogin: app.globalData.isLogin });
-  },
+  onShow() {},
 
   // 获取用户详细信息
-  fetchUserData() {
-    // TODO: 从后端获取用户信息
-    const personInfo = {
-      avatarUrl:
-        'https://we-retail-static-1300977798.cos.ap-guangzhou.myqcloud.com/retail-ui/components-exp/avatar/avatar-1.jpg',
-      nickName: 'TDesign',
-      phoneNumber: '13438358888',
-      gender: 0,
-    };
-    this.setData({
-      personInfo,
-      'personInfo.phoneNumber': phoneEncryption(personInfo.phoneNumber),
-    });
+  initUserDataFromStorage() {
+    try {
+      const userInfo = wx.getStorageSync('userInfo');
+      if (userInfo) {
+        this.setData({
+          personInfo: {
+            avatar: userInfo.avatar || '',
+            birth: userInfo.birth || '',
+            gender: userInfo.gender || 0,
+            nickname: userInfo.nickname || '',
+            phoneNumber: userInfo.phone_number || '',
+            encryptedNumber: phoneEncryption(userInfo.phone_number || ''),
+          },
+          userLocation: {
+            name: userInfo.location_name || '',
+            address: userInfo.location_address || '',
+            latitude: userInfo.latitude || 0,
+            longitude: userInfo.longitude || 0,
+          },
+        });
+      }
+    } catch (error) {
+      console.error('从存储中获取用户数据失败', error);
+    }
   },
 
   // 获取用户地理位置
@@ -66,10 +87,9 @@ Page({
     const settingRes = await wx.getSetting();
     if (!settingRes.authSetting['scope.userLocation']) {
       // 未授权，请求授权
-      const authRes = await wx.authorize({
+      await wx.authorize({
         scope: 'scope.userLocation',
       });
-      console.log('authRes :>> ', authRes);
     }
 
     const locationRes = await wx.getLocation({ type: 'gcj02' });
@@ -85,10 +105,10 @@ Page({
   async onClickCell({ currentTarget }) {
     const { dataset } = currentTarget;
     switch (dataset.type) {
-      case 'name':
+      case 'nickname':
         this.setData({
           usernameDialogVisible: true,
-          tempUsername: this.data.personInfo.nickName,
+          tempUsername: this.data.personInfo.nickname,
         });
         break;
       case 'birth':
@@ -99,8 +119,8 @@ Page({
       case 'location':
         this.toChooseLocation();
         break;
-      case 'avatarUrl':
-        this.toModifyAvatar();
+      case 'avatar':
+        this.openChooseAvatar();
         break;
       default: {
         break;
@@ -108,14 +128,7 @@ Page({
     }
   },
 
-  // 首次登录注册信息
-  register() {
-    // 注册成功后返回上一页
-    wx.navigateBack();
-  },
-
   onGenderChange(e) {
-    console.log('e.detail.value :>> ', e.detail.value);
     this.setData({ 'personInfo.gender': e.detail.value });
   },
 
@@ -123,7 +136,7 @@ Page({
   closeUsernameDialog(e) {
     if (e.type === 'confirm') {
       this.setData({
-        'personInfo.nickName': this.data.tempUsername,
+        'personInfo.nickname': this.data.tempUsername,
       });
     }
     this.setData({ usernameDialogVisible: false });
@@ -154,34 +167,31 @@ Page({
   },
 
   // 修改头像
-  async toModifyAvatar() {
+  async openChooseAvatar() {
     try {
-      const tempFilePath = await new Promise((resolve, reject) => {
-        wx.chooseImage({
-          count: 1,
-          sizeType: ['compressed'],
-          sourceType: ['album', 'camera'],
-          success: (res) => {
-            const { path, size } = res.tempFiles[0];
-            if (size <= 10485760) {
-              resolve(path);
-            } else {
-              reject({ errMsg: '图片大小超出限制，请重新上传' });
-            }
-          },
-          fail: (err) => reject(err),
-        });
+      const res = await wx.chooseMedia({
+        count: 1,
+        mediaType: ['image'],
+        sourceType: ['album', 'camera'],
+        sizeType: ['compressed'],
       });
-      const tempUrlArr = tempFilePath.split('/');
-      const tempFileName = tempUrlArr[tempUrlArr.length - 1];
-      Toast({
-        context: this,
-        selector: '#t-toast',
-        message: `已选择图片-${tempFileName}`,
-        theme: 'success',
+
+      if (res.tempFiles[0].size > 5000000) {
+        return Toast({
+          context: this,
+          selector: '#t-toast',
+          message: '图片大小不超过5M',
+          direction: 'column',
+          theme: 'warning',
+        });
+      }
+
+      // 更新头像显示
+      this.setData({
+        'personInfo.avatar': res.tempFiles[0].tempFilePath,
       });
     } catch (error) {
-      if (error.errMsg === 'chooseImage:fail cancel') return;
+      if (error.errMsg === 'chooseMedia:fail cancel') return;
       Toast({
         context: this,
         selector: '#t-toast',
@@ -191,10 +201,121 @@ Page({
     }
   },
 
+  // 上传头像
+  async uploadAvatar() {
+    const file = this.data.personInfo.avatar;
+    const res = await wx.cloud.callFunction({
+      name: 'uploadAvatar',
+      data: { file: wx.getFileSystemManager().readFileSync(file) },
+    });
+
+    this.setData({ 'personInfo.avatar_file_id': res.result });
+  },
+
   onBirthPickerChange(e) {
     this.setData({ 'personInfo.birth': e.detail.value });
   },
   hideBirthPicker() {
     this.setData({ birthPickerVisible: false });
+  },
+
+  async afterSave(isLogin, personInfo) {
+    app.globalData.isLogin = true;
+    app.globalData.userInfo = personInfo;
+
+    wx.setStorageSync('userInfo', personInfo);
+    wx.setStorageSync('isLogin', true);
+
+    hideToast({ context: this, selector: '#t-toast' });
+    Toast({
+      context: this,
+      selector: '#t-toast',
+      message: isLogin ? '更新成功' : '注册成功',
+      theme: 'success',
+    });
+    // 成功后自动返回上一页
+    let timer = setTimeout(() => {
+      wx.navigateBack();
+      clearTimeout(timer);
+      timer = null;
+    }, 500);
+  },
+
+  validateRequiredFields(fields) {
+    for (const field of fields) {
+      if (!field.value) {
+        Toast({
+          context: this,
+          selector: '#t-toast',
+          message: field.message,
+          theme: 'warning',
+        });
+        return false;
+      }
+    }
+    return true;
+  },
+
+  async onConfirm() {
+    const { personInfo, userLocation, isLogin } = this.data;
+    // 校验必填项
+    const requiredFields = [
+      { value: personInfo.nickname, message: '请填写用户名' },
+      { value: personInfo.gender, message: '请选择性别' },
+      { value: personInfo.birth, message: '请选择出生日期' },
+      { value: userLocation.name, message: '请选择地理位置' },
+    ];
+
+    if (!this.validateRequiredFields(requiredFields)) {
+      return;
+    }
+
+    Toast({
+      context: this,
+      selector: '#t-toast',
+      duration: -1,
+      theme: 'loading',
+      direction: 'column',
+      message: '保存中...',
+    });
+    // 用户选了头像才上传
+    if (personInfo.avatar) {
+      await this.uploadAvatar();
+    }
+
+    const requestBody = {
+      nickname: personInfo.nickname,
+      latitude: userLocation.latitude,
+      longitude: userLocation.longitude,
+      location_address: userLocation.address,
+      location_name: userLocation.name,
+      birth: personInfo.birth,
+      phone_number: personInfo.phoneNumber,
+      gender: personInfo.gender,
+      avatar_file_id: personInfo.avatar_file_id,
+    };
+
+    try {
+      const res = await wx.cloud.callFunction({
+        name: 'registerOrUpdateUser',
+        data: {
+          ...requestBody,
+          action: isLogin ? 'update' : 'register',
+        },
+      });
+      if (!res.result.success) {
+        throw new Error(res.result.message);
+      }
+
+      this.afterSave(isLogin, personInfo);
+    } catch (err) {
+      Toast({
+        context: this,
+        selector: '#t-toast',
+        message: '操作失败，请稍后重试',
+        theme: 'error',
+      });
+      console.error('云函数调用失败', err);
+    }
   },
 });

@@ -25,7 +25,7 @@ module.exports = {
   rules: {
     'prettier/prettier': 'warn',
     'no-undef': 'off',
-    camelcase: ['error', { ignoreDestructuring: true }],
+    camelcase: ['error', { ignoreDestructuring: true, allow: ['^[a-z]+(_[a-z]+)*$'] }],
     'class-name-casing': 'off',
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-debugger': 'error',

@@ -4,12 +4,12 @@
     "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-button": "tdesign-miniprogram/button/button",
-    "t-image": "/components/webp-image/index",
     "t-dialog": "tdesign-miniprogram/dialog/dialog",
     "t-toast": "tdesign-miniprogram/toast/toast",
     "t-input": "tdesign-miniprogram/input/input",
     "t-radio": "tdesign-miniprogram/radio/radio",
     "t-date-time-picker": "tdesign-miniprogram/date-time-picker/date-time-picker",
-    "t-radio-group": "tdesign-miniprogram/radio-group/radio-group"
+    "t-radio-group": "tdesign-miniprogram/radio-group/radio-group",
+    "t-avatar": "tdesign-miniprogram/avatar/avatar"
   }
 }

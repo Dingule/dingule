@@ -1,15 +1,23 @@
 <view class="user-info">
   <t-cell-group>
-    <t-cell title="头像" center="{{true}}" data-type="avatarUrl" bind:click="onClickCell" arrow>
-      <t-image slot="note" src="{{personInfo.avatarUrl}}" t-class="avatarUrl" mode="aspectFill" />
+    <t-cell
+      title="头像"
+      center="{{true}}"
+      data-type="avatar"
+      style="align-items: center"
+      bind:click="onClickCell"
+      arrow
+    >
+      <t-avatar wx:if="{{personInfo.avatar}}" slot="note" image="{{personInfo.avatar}}" />
+      <t-avatar wx:else slot="note" icon="user" />
     </t-cell>
     <t-cell
       title="用户名"
       arrow
       hover
       required
-      note="{{personInfo.nickName || '请填写'}}"
-      data-type="name"
+      note="{{personInfo.nickname || '请填写'}}"
+      data-type="nickname"
       bind:click="onClickCell"
     />
     <t-cell class="info-edit__cell" title="性别" required>
@@ -46,7 +54,7 @@
       bordered="{{false}}"
       title="手机号"
       required
-      note="{{personInfo.phoneNumber ? personInfo.phoneNumber : '去绑定手机号'}}"
+      note="{{personInfo.encryptedNumber}}"
       data-type="phoneNumber"
       bind:click="onClickCell"
     />
@@ -58,8 +66,8 @@
 
 <t-dialog
   visible="{{usernameDialogVisible}}"
-  title="用户用户名"
-  content="为更好的使用本系统提供的服务，请填写真实姓名或恰当的用户名"
+  title="用户名"
+  content="为更好的使用本系统提供的服务，请填写真实姓名或恰当的名称"
   confirm-btn="确定"
   cancel-btn="取消"
   bind:confirm="closeUsernameDialog"
