@@ -72,6 +72,7 @@ Page({
     rolePopupVisible: false, // 用户角色选择弹框
     showMakePhone: false, // 客服热线弹框
     userInfo: {},
+    roleInfo: {},
     menuData,
     orderTagInfos,
     customerServiceInfo: {},
@@ -92,7 +93,8 @@ Page({
 
   // 检查用户是否注册角色，未注册的话唤起弹框
   checkUserRole() {
-    if (!this.data.isLogin || this.data.userInfo.role) {
+    const { isLogin, userInfo } = app.globalData;
+    if (!isLogin || +userInfo.role) {
       return;
     }
     let timer = setTimeout(() => {
@@ -118,6 +120,7 @@ Page({
 
     this.setData({
       userInfo: app.globalData.userInfo,
+      roleInfo: app.globalData.roleInfo,
       isLogin: app.globalData.isLogin,
     });
   },
@@ -219,7 +222,6 @@ Page({
   },
 
   onRoleVisibleChange(e) {
-    console.log('e :>> ', e);
     this.setData({ rolePopupVisible: e.detail.visible });
   },
 

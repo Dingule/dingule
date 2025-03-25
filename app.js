@@ -1,5 +1,7 @@
 import updateManager from './common/updateManager';
 import createBus from './utils/eventBus';
+import { getDataByUserId } from 'api/common';
+import { USER_ROLE } from 'constants/users';
 import { connectSocket, fetchUnreadNum } from './mock/chat';
 const { init } = require('@cloudbase/wx-cloud-client-sdk');
 const ENV_ID = 'cloud1-4gufq5rv2f4710bd';
@@ -37,7 +39,8 @@ App({
   globalData: {
     isLogin: false,
     userInfo: {},
-    userInfoNeedRefresh: false, // 注册或更新用户信息后触发强制刷新
+    roleInfo: {},
+    userInfoNeedRefresh: true, // 注册或更新用户信息后触发强制刷新
 
     unreadNum: 0, // 未读消息数量
     socket: null, // SocketTask 对象
@@ -50,6 +53,7 @@ App({
 
   async loadUserInfo(forceRefresh = false) {
     let userInfo = wx.getStorageSync('userInfo') || {};
+    let roleInfo = wx.getStorageSync('roleInfo') || {};
 
     if (!Object.keys(userInfo).length || forceRefresh) {
       const res = await wx.cloud.callFunction({ name: 'login' });
@@ -60,12 +64,23 @@ App({
       const tempUrlRes = await wx.cloud.getTempFileURL({ fileList: [userInfo.avatar_file_id] });
       userInfo.avatar = tempUrlRes.fileList[0].tempFileURL;
 
+      // 如果用户已注册角色，那么一并查询角色信息
+      if (userInfo.role) {
+        const roleRes = await getDataByUserId({
+          collection: userInfo.role === USER_ROLE.STUDENT ? 'students' : 'teachers',
+          userId: userInfo._id,
+        });
+        roleInfo = roleRes.data.data;
+      }
+
       wx.setStorageSync('userInfo', userInfo);
+      wx.setStorageSync('roleInfo', roleInfo);
       wx.setStorageSync('isLogin', true);
     }
 
     this.globalData.isLogin = true;
     this.globalData.userInfo = userInfo;
+    this.globalData.roleInfo = roleInfo;
   },
 
   /** 初始化 WebSocket */

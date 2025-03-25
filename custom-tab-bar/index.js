@@ -14,7 +14,6 @@ Component({
           this.setData({
             active: nameRe[1],
           });
-          console.log('this.data.active :>> ', this.data.active);
         }
       }
     },
@@ -22,7 +21,6 @@ Component({
     onChange(e) {
       const { value } = e.detail;
       this.setData({ active: value });
-      console.log('`/pages/${value}/index` :>> ', `/pages/${value}/index`);
       wx.switchTab({ url: `/pages/${value}/index` });
     },
   },

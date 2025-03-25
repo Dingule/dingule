@@ -7,10 +7,33 @@
         image="{{userInfo.avatar || defaultAvatarUrl}}"
         bind:tap="gotoUserEditPage"
       />
-      <view class="user-center-card__header__name" bind:tap="gotoUserEditPage">
-        {{userInfo.nickname || '微信用户'}}
+      <view class="username-wrapper">
+        <view class="username">
+          <text bind:tap="gotoUserEditPage">{{userInfo.nickname || '微信用户'}}</text>
+          <t-tag
+            wx:if="{{userInfo.role}}"
+            theme="{{roleStatusTheme}}"
+            class="status-tag"
+            size="small"
+            variant="outline"
+          >
+            {{roleStatusZh}}
+          </t-tag>
+          <t-tag wx:else variant="outline" class="status-tag" size="small" bind:tap="showRolePopup">去认证</t-tag>
+          <t-button
+            variant="text"
+            size="extra-small"
+            loading="{{loading}}"
+            icon="{{refreshIconName}}"
+            style="color: #999"
+            hover-class="none"
+            bind:tap="refresh"
+          />
+        </view>
+        <view class="role-wrapper" wx:if="{{userInfo.role}}">
+          您当前的身份：{{userInfo.role === '1' ? '学生' : '教师'}}
+        </view>
       </view>
-      <t-tag variant="outline" shape="mark" bind:tap="showRolePopup">去认证</t-tag>
     </view>
   </block>
 
@@ -29,3 +52,5 @@
     </view>
   </block>
 </view>
+
+<t-toast id="t-toast" />
