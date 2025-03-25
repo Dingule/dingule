@@ -23,6 +23,7 @@ Page({
       longitude: 0,
     },
     usernameDialogVisible: false,
+    avatarChanged: false, // 用于区分临时头像和已有头像
     genderOptions: [
       {
         label: '先生',
@@ -60,6 +61,7 @@ Page({
       const userInfo = wx.getStorageSync('userInfo');
       if (userInfo) {
         this.setData({
+          isLogin: true,
           personInfo: {
             avatar: userInfo.avatar || '',
             birth: userInfo.birth || '',
@@ -188,6 +190,7 @@ Page({
 
       // 更新头像显示
       this.setData({
+        avatarChanged: true,
         'personInfo.avatar': res.tempFiles[0].tempFilePath,
       });
     } catch (error) {
@@ -222,6 +225,7 @@ Page({
   async afterSave(isLogin, personInfo) {
     app.globalData.isLogin = true;
     app.globalData.userInfo = personInfo;
+    app.globalData.userInfoNeedRefresh = true;
 
     wx.setStorageSync('userInfo', personInfo);
     wx.setStorageSync('isLogin', true);
@@ -278,8 +282,8 @@ Page({
       direction: 'column',
       message: '保存中...',
     });
-    // 用户选了头像才上传
-    if (personInfo.avatar) {
+    // 用户更换头像才上传
+    if (this.data.avatarChanged) {
       await this.uploadAvatar();
     }
 

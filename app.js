@@ -2,12 +2,18 @@ import updateManager from './common/updateManager';
 import createBus from './utils/eventBus';
 import { connectSocket, fetchUnreadNum } from './mock/chat';
 const { init } = require('@cloudbase/wx-cloud-client-sdk');
+const ENV_ID = 'cloud1-4gufq5rv2f4710bd';
 
 App({
   onLaunch() {
+    // 初始化云函数2.0
+    wx.cloud.Cloud({
+      resourceEnv: ENV_ID,
+    });
+
     // 初始化云开发环境
     wx.cloud.init({
-      env: 'cloud1-4gufq5rv2f4710bd', // 替换为你的云环境 ID
+      env: ENV_ID,
       traceUser: true,
     });
 
@@ -25,12 +31,14 @@ App({
     updateManager(); // 检查更新
 
     // 检查用户是否已授权
-    this.login();
+    this.loadUserInfo();
   },
 
   globalData: {
     isLogin: false,
     userInfo: {},
+    userInfoNeedRefresh: false, // 注册或更新用户信息后触发强制刷新
+
     unreadNum: 0, // 未读消息数量
     socket: null, // SocketTask 对象
   },
@@ -40,9 +48,24 @@ App({
   /** 全局事件总线 */
   eventBus: createBus(),
 
-  async login() {
-    const res = await wx.cloud.callFunction({ name: 'login' });
-    this.globalData.isLogin = Boolean(res.result?.success);
+  async loadUserInfo(forceRefresh = false) {
+    let userInfo = wx.getStorageSync('userInfo') || {};
+
+    if (!Object.keys(userInfo).length || forceRefresh) {
+      const res = await wx.cloud.callFunction({ name: 'login' });
+      this.globalData.isLogin = Boolean(res.result?.success);
+      this.globalData.userInfoNeedRefresh = false;
+      userInfo = res.result.data[0];
+
+      const tempUrlRes = await wx.cloud.getTempFileURL({ fileList: [userInfo.avatar_file_id] });
+      userInfo.avatar = tempUrlRes.fileList[0].tempFileURL;
+
+      wx.setStorageSync('userInfo', userInfo);
+      wx.setStorageSync('isLogin', true);
+    }
+
+    this.globalData.isLogin = true;
+    this.globalData.userInfo = userInfo;
   },
 
   /** 初始化 WebSocket */

@@ -10,7 +10,7 @@ exports.main = async () => {
 
   try {
     const userData = await db
-      .collection('user')
+      .collection('users')
       .where({
         openId: wxContext.OPENID,
       })

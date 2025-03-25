@@ -1,14 +1,16 @@
 <view class="user-center-card">
   <!-- 已登录 -->
   <block wx:if="{{isLogin}}">
-    <view class="user-center-card__header" bind:tap="gotoUserEditPage">
+    <view class="user-center-card__header">
       <t-avatar
-        t-class="avatar"
-        mode="aspectFill"
         class="user-center-card__header__avatar"
-        image="{{userInfo.avatarUrl || defaultAvatarUrl}}"
+        image="{{userInfo.avatar || defaultAvatarUrl}}"
+        bind:tap="gotoUserEditPage"
       />
-      <view class="user-center-card__header__name">{{userInfo.nickName || '微信用户'}}</view>
+      <view class="user-center-card__header__name" bind:tap="gotoUserEditPage">
+        {{userInfo.nickname || '微信用户'}}
+      </view>
+      <t-tag variant="outline" shape="mark" bind:tap="showRolePopup">去认证</t-tag>
     </view>
   </block>
 

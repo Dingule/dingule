@@ -1,12 +1,12 @@
 <t-user-center-card
   userInfo="{{userInfo}}"
-  isPhoneHide="{{true}}"
   name-class="custom-name-class"
   phone-class="custom-phone-class"
   avatar-class="customer-avatar-class"
   isLogin="{{isLogin}}"
   bind:gotoUserEditPage="gotoUserEditPage"
   bind:getPhoneNumber="getPhoneNumber"
+  bind:showRolePopup="onRoleVisibleChange"
 />
 <view class="content-wrapper">
   <view class="order-group-wrapper">
@@ -35,6 +35,21 @@
   </view>
 </view>
 <view class="footer__version" wx:if="{{versionNo !== ''}}">当前版本 {{versionNo}}</view>
+
+<!-- 角色选择弹框 -->
+<t-popup visible="{{rolePopupVisible}}" bind:visible-change="onRoleVisibleChange" placement="bottom">
+  <view class="role-popup-wrapper">
+    <view class="header">角色选择</view>
+
+    <view class="content">
+      <t-image wx:if="{{userInfo.gender === 1}}" src="/static/imgs/stu_male.png" mode="widthFix" width="330rpx" />
+      <t-image wx:else src="/static/imgs/stu_male.png" mode="widthFix" width="330rpx" />
+      <t-image wx:if="{{userInfo.gender === 1}}" src="/static/imgs/tea_male.png" mode="widthFix" width="330rpx" />
+      <t-image wx:else src="/static/imgs/tea_male.png" mode="widthFix" width="330rpx" />
+    </view>
+  </view>
+</t-popup>
+
 <!-- 客服热线弹框 -->
 <t-popup visible="{{showMakePhone}}" placement="bottom" bind:visible-change="closeMakePhone" data-index="2">
   <view class="popup-content">

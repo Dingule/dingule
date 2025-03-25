@@ -22,5 +22,8 @@ Component({
     getPhoneNumber(e) {
       this.triggerEvent('getPhoneNumber', e.detail);
     },
+    showRolePopup() {
+      this.triggerEvent('showRolePopup', { visible: true });
+    },
   },
 });

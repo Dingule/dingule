@@ -1,4 +1,5 @@
-import Toast from 'tdesign-miniprogram/toast/index';
+import Toast, { hideToast } from 'tdesign-miniprogram/toast/index';
+
 const app = getApp();
 
 const menuData = [
@@ -68,14 +69,9 @@ const orderTagInfos = [
 Page({
   data: {
     isLogin: false,
-    showMakePhone: false,
-    userInfo: {
-      avatarUrl:
-        'https://we-retail-static-1300977798.cos.ap-guangzhou.myqcloud.com/retail-ui/components-exp/avatar/avatar-1.jpg',
-      nickName: 'TDesign',
-      phoneNumber: '13438358888',
-      gender: 2,
-    },
+    rolePopupVisible: false, // 用户角色选择弹框
+    showMakePhone: false, // 客服热线弹框
+    userInfo: {},
     menuData,
     orderTagInfos,
     customerServiceInfo: {},
@@ -89,12 +85,41 @@ Page({
 
   async onShow() {
     this.getTabBar().init();
+    await this.loadUserInfo();
+    // 更新用户信息后再检查是否注册
+    this.checkUserRole();
+  },
 
-    if (app.globalData.isLogin) {
-      this.fetchUserInfo();
+  // 检查用户是否注册角色，未注册的话唤起弹框
+  checkUserRole() {
+    if (!this.data.isLogin || this.data.userInfo.role) {
+      return;
+    }
+    let timer = setTimeout(() => {
+      this.setData({ rolePopupVisible: true });
+      clearTimeout(timer);
+      timer = null;
+    }, 300);
+  },
+
+  async loadUserInfo() {
+    if (app.globalData.userInfoNeedRefresh) {
+      Toast({
+        context: this,
+        selector: '#t-toast',
+        duration: -1,
+        theme: 'loading',
+        direction: 'column',
+        message: '加载中...',
+      });
+      await app.loadUserInfo();
+      hideToast({ context: this, selector: '#t-toast' });
     }
 
-    this.setData({ isLogin: app.globalData.isLogin });
+    this.setData({
+      userInfo: app.globalData.userInfo,
+      isLogin: app.globalData.isLogin,
+    });
   },
 
   onPullDownRefresh() {
@@ -193,6 +218,11 @@ Page({
     }
   },
 
+  onRoleVisibleChange(e) {
+    console.log('e :>> ', e);
+    this.setData({ rolePopupVisible: e.detail.visible });
+  },
+
   // 客服热线弹框
   openMakePhone() {
     this.setData({ showMakePhone: true });
@@ -204,7 +234,7 @@ Page({
 
   call() {
     wx.makePhoneCall({
-      phoneNumber: this.data.customerServiceInfo.servicePhone,
+      phoneNumber: '400-8888-8888',
     });
   },
 

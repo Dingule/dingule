@@ -20,6 +20,7 @@ exports.main = async (event) => {
           openId: wxContext.OPENID,
           createdAt: db.serverDate(),
           updatedAt: db.serverDate(),
+          _openid: wxContext.OPENID,
         },
       });
       return { success: true, message: '用户注册成功', data: result };
