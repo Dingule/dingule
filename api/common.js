@@ -30,3 +30,20 @@ export async function getDataByUserId({ collection, userId }) {
     return;
   }
 }
+
+/**
+ * 上传图片到指定路径
+ * @param {string} path 上传文件文件夹路径
+ * @param {string} tempFilePath 图片临时路径
+ * @returns {Promise<string>} 上传成功后返回文件ID
+ */
+export async function uploadImageByPath(path, tempFilePath) {
+  const res = awaitcloud.callFunction({
+    name: 'uploadImageByPath',
+    data: {
+      path,
+      file: wx.getFileSystemManager().readFileSync(tempFilePath),
+    },
+  });
+  return res.result;
+}

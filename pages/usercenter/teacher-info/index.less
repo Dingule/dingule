@@ -1,0 +1,67 @@
+/* pages/usercenter/teacher-info/index.wxss */
+.steps {
+  background: #fafafa;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #e5e5e5;
+}
+
+.teacher-info {
+  padding: 32rpx;
+
+  .step-content {
+    width: 100%;
+
+    .step-container {
+      display: flex;
+      width: fit-content;
+
+      .step-item {
+        width: calc(100vw - 64rpx); // 减去左右padding的宽度
+        min-height: 400rpx;
+        box-sizing: border-box;
+        flex-shrink: 0;
+
+        &.active {
+          animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .none-flex__cell {
+          .t-cell__title {
+            flex: none;
+            width: 220rpx;
+          }
+        }
+
+        .title-center__cell {
+          align-items: center;
+        }
+
+        .radio-group {
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        .t-input,
+        .t-radio--block {
+          padding: 0 32rpx;
+        }
+
+        .button-group {
+          margin: 36rpx 28rpx;
+          display: flex;
+          justify-content: center;
+          gap: 32rpx;
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

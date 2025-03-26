@@ -1,0 +1,218 @@
+<!--pages/usercenter/teacher-info/index.wxml-->
+<t-sticky>
+  <t-steps current="{{current}}" class="steps" theme="dot" bind:change="onChange">
+    <t-step-item wx:for="{{steps}}" wx:key="index" title="{{item.title}}" />
+  </t-steps>
+</t-sticky>
+
+<view class="teacher-info">
+  <scroll-view
+    class="step-content"
+    scroll-x
+    scroll-with-animation
+    scroll-left="{{scrollLeft}}"
+    enhanced
+    show-scrollbar="{{false}}"
+    bindscroll="onScroll"
+    bindscrolltolower="onScrollEnd"
+    bindscrollend="onScrollEnd"
+  >
+    <view class="step-container">
+      <!-- 第一步：教育背景 -->
+      <view class="step-item {{current === 0 ? 'active' : ''}}">
+        <t-cell-group title="教育信息">
+          <t-cell
+            title="学历"
+            arrow
+            hover
+            required
+            note="{{EDUCATION_BACKGROUND_ZH[teacherInfo.eduBackground] || '请选择'}}"
+            bind:tap="showEduPicker"
+          />
+          <t-cell title="学校名称" required>
+            <t-input
+              slot="note"
+              align="right"
+              borderless
+              maxlength="20"
+              value="{{teacherInfo.school}}"
+              placeholder="请输入学校名称"
+              bind:change="onValueChange"
+              data-field="school"
+              status="{{formValidation.school.status}}"
+              tips="{{formValidation.school.tips}}"
+            />
+          </t-cell>
+          <t-cell title="专业" required>
+            <t-input
+              slot="note"
+              align="right"
+              borderless
+              maxlength="12"
+              value="{{teacherInfo.major}}"
+              placeholder="请输入专业名称"
+              bind:change="onValueChange"
+              data-field="major"
+              status="{{formValidation.major.status}}"
+              tips="{{formValidation.major.tips}}"
+            />
+          </t-cell>
+          <t-cell title="是否毕业">
+            <t-radio-group
+              slot="note"
+              class="radio-group"
+              value="{{teacherInfo.isGraduated}}"
+              bind:change="onValueChange"
+              data-field="isGraduated"
+            >
+              <t-radio value="{{true}}" label="已毕业" />
+              <t-radio value="{{false}}" label="在读" />
+            </t-radio-group>
+          </t-cell>
+          <t-cell wx:if="{{!teacherInfo.isGraduated}}" title="是否已有学位">
+            <t-radio-group
+              slot="note"
+              class="radio-group"
+              value="{{teacherInfo.hasDegree}}"
+              bind:change="onValueChange"
+              data-field="hasDegree"
+            >
+              <t-radio value="{{true}}" label="是" />
+              <t-radio value="{{false}}" label="否" />
+            </t-radio-group>
+          </t-cell>
+        </t-cell-group>
+
+        <t-cell-group title="证件上传">
+          <t-cell
+            wx:if="{{!teacherInfo.isGraduated}}"
+            required
+            title="学生证照片"
+            class="title-center__cell"
+            description="请上传清晰的学生证照片"
+          >
+            <t-upload
+              slot="note"
+              max="{{1}}"
+              gridConfig="{{gridConfig}}"
+              files="{{teacherInfo.studentCard ? [{url: teacherInfo.studentCard}] : []}}"
+              media-type="{{ ['image'] }}"
+              bind:success="onUploadSuccess"
+              bind:remove="onUploadRemove"
+              data-field="studentCard"
+            />
+          </t-cell>
+          <t-cell
+            required
+            title="毕业证书"
+            description="请上传毕业证书照片"
+            class="title-center__cell"
+            wx:if="{{teacherInfo.hasDegree || teacherInfo.isGraduated}}"
+          >
+            <t-upload
+              slot="note"
+              max="{{1}}"
+              gridConfig="{{gridConfig}}"
+              media-type="{{ ['image'] }}"
+              files="{{teacherInfo.diploma ? [{url: teacherInfo.diploma}] : []}}"
+              bind:success="onUploadSuccess"
+              bind:remove="onUploadRemove"
+              data-field="diploma"
+            />
+          </t-cell>
+        </t-cell-group>
+
+        <view class="button-group">
+          <t-button theme="light" variant="outline" block size="medium" bind:tap="nextStep">下一步</t-button>
+        </view>
+      </view>
+
+      <!-- 第二步：实名认证 -->
+      <view class="step-item {{current === 1 ? 'active' : ''}}">
+        <t-cell-group>
+          <t-cell title="真实姓名" required>
+            <t-input
+              slot="note"
+              borderless
+              maxlength="6"
+              value="{{teacherInfo.realName}}"
+              placeholder="请输入真实姓名"
+              bind:change="onValueChange"
+              data-field="realName"
+              status="{{formValidation.realName.status}}"
+              tips="{{formValidation.realName.tips}}"
+            />
+          </t-cell>
+          <t-cell title="身份证号" required>
+            <t-input
+              slot="note"
+              borderless
+              type="idcard"
+              value="{{teacherInfo.idCardNo}}"
+              placeholder="请输入身份证号码"
+              bind:change="onValueChange"
+              data-field="idCardNo"
+              status="{{formValidation.idCardNo.status}}"
+              tips="{{formValidation.idCardNo.tips}}"
+            />
+          </t-cell>
+          <t-cell required title="身份证正面照" class="title-center__cell" description="请上传身份证人像面照片">
+            <t-upload
+              slot="note"
+              max="{{1}}"
+              gridConfig="{{gridConfig}}"
+              media-type="{{ ['image'] }}"
+              files="{{teacherInfo.idCardFront ? [{url: teacherInfo.idCardFront}] : []}}"
+              bind:success="onUploadSuccess"
+              bind:remove="onUploadRemove"
+              data-field="idCardFront"
+            />
+          </t-cell>
+        </t-cell-group>
+
+        <view class="button-group">
+          <t-button theme="primary" variant="outline" block size="medium" bind:tap="prevStep">上一步</t-button>
+          <t-button theme="light" variant="outline" block size="medium" bind:tap="nextStep">下一步</t-button>
+        </view>
+      </view>
+
+      <!-- 第三步：个人简介 -->
+      <view class="step-item {{current === 2 ? 'active' : ''}}">
+        <t-cell-group>
+          <t-cell title="科目" arrow />
+          <t-cell title="个人简介">
+            <t-textarea
+              slot="description"
+              style="width: 100%"
+              value="{{teacherInfo.intro}}"
+              placeholder="{{introPlaceholder}}"
+              maxlength="500"
+              indicator
+              bind:change="onValueChange"
+              data-field="intro"
+            />
+          </t-cell>
+        </t-cell-group>
+
+        <view class="button-group">
+          <t-button theme="primary" variant="outline" block size="medium" bind:tap="prevStep">上一步</t-button>
+          <t-button theme="primary" block size="medium" bind:tap="submit">提交</t-button>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+
+<t-picker
+  visible="{{eduBgPickerVisible}}"
+  value="{{teacherInfo.eduBackground}}"
+  title="选择学历"
+  cancelBtn="取消"
+  confirmBtn="确认"
+  bindcancel="onEduPickerCancel"
+  bindconfirm="onEduPickerConfirm"
+>
+  <t-picker-item options="{{eduBackgroundOptions}}" />
+</t-picker>
+
+<t-toast id="t-toast" />

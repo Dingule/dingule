@@ -67,6 +67,7 @@ Component({
       await new Promise((resolve) => {
         setTimeout(resolve, 300);
       });
+      // 仅手动刷新时自更新状态，其余情况由父组件控制
       this.setData({
         loading: false,
         refreshIconName: 'refresh',

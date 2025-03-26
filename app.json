@@ -5,7 +5,9 @@
     "pages/message/index",
     "pages/usercenter/index",
     "pages/order/order-list/index",
-    "pages/usercenter/user-info/index"
+    "pages/usercenter/user-info/index",
+    "pages/usercenter/student-info/index",
+    "pages/usercenter/teacher-info/index"
   ],
   "tabBar": {
     "custom": true,

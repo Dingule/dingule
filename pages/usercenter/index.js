@@ -1,4 +1,5 @@
 import Toast, { hideToast } from 'tdesign-miniprogram/toast/index';
+import { USER_ROLE } from 'constants/users';
 
 const app = getApp();
 
@@ -78,6 +79,7 @@ Page({
     customerServiceInfo: {},
     showKefu: true,
     versionNo: '',
+    USER_ROLE,
   },
 
   onLoad() {
@@ -223,6 +225,15 @@ Page({
 
   onRoleVisibleChange(e) {
     this.setData({ rolePopupVisible: e.detail.visible });
+  },
+
+  onRoleSelect(e) {
+    const { role } = e.currentTarget.dataset;
+    if (role === USER_ROLE.STUDENT) {
+      wx.navigateTo({ url: '/pages/usercenter/student-info/index' });
+    } else {
+      wx.navigateTo({ url: '/pages/usercenter/teacher-info/index' });
+    }
   },
 
   // 客服热线弹框

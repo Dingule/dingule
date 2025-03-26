@@ -85,6 +85,16 @@
           "name": "个人信息",
           "pathName": "pages/usercenter/user-info/index",
           "query": "number=18931993361"
+        },
+        {
+          "name": "学生注册",
+          "pathName": "pages/usercenter/student-info/index",
+          "query": ""
+        },
+        {
+          "name": "教师注册",
+          "pathName": "pages/usercenter/teacher-info/index",
+          "query": ""
         }
       ]
     }

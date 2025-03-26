@@ -43,10 +43,38 @@
     <view class="header">角色选择</view>
 
     <view class="content">
-      <t-image wx:if="{{userInfo.gender === 1}}" src="/static/imgs/stu_male.png" mode="widthFix" width="330rpx" />
-      <t-image wx:else src="/static/imgs/stu_male.png" mode="widthFix" width="330rpx" />
-      <t-image wx:if="{{userInfo.gender === 1}}" src="/static/imgs/tea_male.png" mode="widthFix" width="330rpx" />
-      <t-image wx:else src="/static/imgs/tea_male.png" mode="widthFix" width="330rpx" />
+      <t-image
+        wx:if="{{userInfo.gender === 1}}"
+        src="/static/imgs/stu_male.png"
+        mode="widthFix"
+        width="330rpx"
+        data-role="{{USER_ROLE.STUDENT}}"
+        bind:tap="onRoleSelect"
+      />
+      <t-image
+        wx:else
+        src="/static/imgs/stu_male.png"
+        mode="widthFix"
+        width="330rpx"
+        data-role="{{USER_ROLE.STUDENT}}"
+        bind:tap="onRoleSelect"
+      />
+      <t-image
+        wx:if="{{userInfo.gender === 1}}"
+        src="/static/imgs/tea_male.png"
+        mode="widthFix"
+        width="330rpx"
+        data-role="{{USER_ROLE.TEACHER}}"
+        bind:tap="onRoleSelect"
+      />
+      <t-image
+        wx:else
+        src="/static/imgs/tea_male.png"
+        mode="widthFix"
+        width="330rpx"
+        data-role="{{USER_ROLE.TEACHER}}"
+        bind:tap="onRoleSelect"
+      />
     </view>
   </view>
 </t-popup>

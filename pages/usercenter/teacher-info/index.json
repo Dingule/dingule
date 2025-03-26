@@ -1,0 +1,21 @@
+{
+  "navigationBarTitleText": "教师认证",
+  "navigationBarBackgroundColor": "#fafafa",
+  "usingComponents": {
+    "t-steps": "tdesign-miniprogram/steps/steps",
+    "t-step-item": "tdesign-miniprogram/step-item/step-item",
+    "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-input": "tdesign-miniprogram/input/input",
+    "t-switch": "tdesign-miniprogram/switch/switch",
+    "t-textarea": "tdesign-miniprogram/textarea/textarea",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-upload": "tdesign-miniprogram/upload/upload",
+    "t-sticky": "tdesign-miniprogram/sticky/sticky",
+    "t-picker": "tdesign-miniprogram/picker/picker",
+    "t-picker-item": "tdesign-miniprogram/picker-item/picker-item",
+    "t-radio": "tdesign-miniprogram/radio/radio",
+    "t-radio-group": "tdesign-miniprogram/radio-group/radio-group",
+    "t-toast": "tdesign-miniprogram/toast/toast"
+  }
+}

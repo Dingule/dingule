@@ -49,11 +49,7 @@ const cosThumb = (url, width, height = width) => {
 
 const get = (source, paths, defaultValue) => {
   if (typeof paths === 'string') {
-    paths = paths
-      .replace(/\[/g, '.')
-      .replace(/\]/g, '')
-      .split('.')
-      .filter(Boolean);
+    paths = paths.replace(/\[/g, '.').replace(/\]/g, '').split('.').filter(Boolean);
   }
   const { length } = paths;
   let index = 0;
@@ -108,8 +104,7 @@ const phoneEncryption = (phone) => {
 };
 
 // 内置手机号正则字符串
-const innerPhoneReg =
-  '^1(?:3\\d|4[4-9]|5[0-35-9]|6[67]|7[0-8]|8\\d|9\\d)\\d{8}$';
+const innerPhoneReg = '^1(?:3\\d|4[4-9]|5[0-35-9]|6[67]|7[0-8]|8\\d|9\\d)\\d{8}$';
 
 /**
  * 手机号正则校验
@@ -122,6 +117,58 @@ const phoneRegCheck = (phone) => {
   return phoneRegExp.test(phone);
 };
 
+/**
+ * 将对象的key从下划线命名转为驼峰命名
+ * @param {object} obj 要转换的对象
+ * @returns {object} 转换后的对象
+ */
+const toCamelCase = (obj) => {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map((item) => toCamelCase(item));
+  }
+
+  return Object.keys(obj).reduce((acc, key) => {
+    // 转换key为驼峰命名
+    const camelKey = key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+
+    // 递归处理嵌套对象
+    const value = obj[key];
+    acc[camelKey] = toCamelCase(value);
+
+    return acc;
+  }, {});
+};
+
+/**
+ * 将对象的key从驼峰命名转为下划线命名
+ * @param {object} obj 要转换的对象
+ * @returns {object} 转换后的对象
+ */
+const toSnakeCase = (obj) => {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map((item) => toSnakeCase(item));
+  }
+
+  return Object.keys(obj).reduce((acc, key) => {
+    // 转换key为下划线命名
+    const snakeKey = key.replace(/([A-Z])/g, '_$1').toLowerCase();
+
+    // 递归处理嵌套对象
+    const value = obj[key];
+    acc[snakeKey] = toSnakeCase(value);
+
+    return acc;
+  }, {});
+};
+
 module.exports = {
   formatTime,
   priceFormat,
@@ -130,4 +177,6 @@ module.exports = {
   rpx2px,
   phoneEncryption,
   phoneRegCheck,
+  toCamelCase,
+  toSnakeCase,
 };
