@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-tree-select": "tdesign-miniprogram/tree-select/tree-select"
+  }
+}

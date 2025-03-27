@@ -179,7 +179,13 @@
       <!-- 第三步：个人简介 -->
       <view class="step-item {{current === 2 ? 'active' : ''}}">
         <t-cell-group>
-          <t-cell title="科目" arrow />
+          <t-cell
+            title="科目"
+            class="none-flex__cell title-center__cell"
+            arrow
+            bind:tap="showSubjectPopup"
+            note="{{teacherSubject || '请选择擅长科目'}}"
+          />
           <t-cell title="个人简介">
             <t-textarea
               slot="description"
@@ -214,5 +220,13 @@
 >
   <t-picker-item options="{{eduBackgroundOptions}}" />
 </t-picker>
+
+<subject-select-popup
+  id="subject-select-popup"
+  visible="{{subjectPopupVisible}}"
+  value="{{teacherInfo.subject}}"
+  bind:close="obSubjectClose"
+  bind:confirm="onSubjectConfirm"
+/>
 
 <t-toast id="t-toast" />

@@ -208,8 +208,8 @@ Page({
   async uploadAvatar() {
     const file = this.data.personInfo.avatar;
     const res = await wx.cloud.callFunction({
-      name: 'uploadAvatar',
-      data: { file: wx.getFileSystemManager().readFileSync(file) },
+      name: 'uploadImageByPath',
+      data: { path: 'avatar', file: wx.getFileSystemManager().readFileSync(file) },
     });
 
     this.setData({ 'personInfo.avatar_file_id': res.result });

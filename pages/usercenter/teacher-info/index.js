@@ -20,6 +20,7 @@ Page({
     scrollLeft: 0,
     steps: [{ title: '教育背景' }, { title: '实名认证' }, { title: '个人简介' }],
     eduBgPickerVisible: false,
+    subjectPopupVisible: false,
     eduBackgroundOptions,
     teacherInfo: {
       // 教育背景
@@ -38,11 +39,11 @@ Page({
 
       // 个人简介
       intro: '',
-      // 科目
     },
+    teacherSubject: '', // 科目不在教师表中，单独储存
 
     introPlaceholder:
-      '请介绍您的教学经验、特色等，可以从以下几个方面介绍：\n1. 教学资质\n2. 教学成果\n3. 教学特色\n4. 资质证书\n5. 教学理念',
+      '请介绍您的教学经验、特色等，可以从以下几个方面介绍： 1. 教学资质 2. 教学成果 3. 教学特色 4. 资质证书 5. 教学理念',
     gridConfig: {
       column: 1,
       width: 160,
@@ -311,15 +312,27 @@ Page({
     });
   },
 
+  // 显示科目选择弹窗
+  showSubjectPopup() {
+    this.setData({ subjectPopupVisible: true });
+  },
+  obSubjectClose() {
+    this.setData({ subjectPopupVisible: false });
+  },
+  onSubjectConfirm(e) {
+    this.setData({ teacherSubject: e.detail });
+  },
+
   // 修改提交方法
   submit() {
-    if (this.validateForm()) {
-      // 验证通过，处理提交逻辑
-      wx.showToast({
-        title: '提交成功',
-        icon: 'success',
-      });
-      console.log('this.data.teacherInfo :>> ', this.data.teacherInfo);
+    if (!this.validateForm()) {
+      return;
     }
+    // 验证通过，处理提交逻辑
+    wx.showToast({
+      title: '提交成功',
+      icon: 'success',
+    });
+    console.log('this.data.teacherInfo :>> ', this.data.teacherInfo);
   },
 });

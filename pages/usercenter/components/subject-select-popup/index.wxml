@@ -1,0 +1,14 @@
+<!--pages/usercenter/components/subject-select-popup/index.wxml-->
+<t-popup visible="{{visible}}" bind:visible-change="closePopup" placement="bottom">
+  <view class="subject-popup-wrapper">
+    <view class="header">
+      <view class="btn btn--cancel" aria-role="button" bind:tap="closePopup">取消</view>
+      <view class="title">选择科目</view>
+      <view class="btn btn--confirm" aria-role="button" bind:tap="onConfirm">确定</view>
+    </view>
+
+    <t-tree-select options="{{subjectOptions}}" value="{{subjectValue}}" multiple bind:change="onChange" />
+  </view>
+</t-popup>
+
+<t-toast id="t-toast" />
