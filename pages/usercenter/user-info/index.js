@@ -11,7 +11,7 @@ Page({
       avatar: '',
       avatar_file_id: '',
       birth: '',
-      gender: 0,
+      gender: '0',
       nickname: '',
       phoneNumber: '', // 默认值为空
       encryptedNumber: '', // 加密后的手机号
@@ -27,11 +27,11 @@ Page({
     genderOptions: [
       {
         label: '先生',
-        value: 1,
+        value: '1',
       },
       {
         label: '女士',
-        value: 2,
+        value: '2',
       },
     ],
     birthPickerVisible: false,
@@ -65,7 +65,7 @@ Page({
           personInfo: {
             avatar: userInfo.avatar || '',
             birth: userInfo.birth || '',
-            gender: userInfo.gender || 0,
+            gender: userInfo.gender || '0',
             nickname: userInfo.nickname || '',
             phoneNumber: userInfo.phone_number || '',
             encryptedNumber: phoneEncryption(userInfo.phone_number || ''),

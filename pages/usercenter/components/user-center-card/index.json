@@ -4,6 +4,7 @@
     "t-avatar": "tdesign-miniprogram/avatar/avatar",
     "t-button": "tdesign-miniprogram/button/button",
     "t-tag": "tdesign-miniprogram/tag/tag",
+    "t-image": "tdesign-miniprogram/image/image",
     "t-toast": "tdesign-miniprogram/toast/toast"
   }
 }

@@ -2,11 +2,19 @@
   <!-- 已登录 -->
   <block wx:if="{{isLogin}}">
     <view class="user-center-card__header">
-      <t-avatar
-        class="user-center-card__header__avatar"
-        image="{{userInfo.avatar || defaultAvatarUrl}}"
-        bind:tap="gotoUserEditPage"
-      />
+      <view class="avatar-wrapper">
+        <t-avatar
+          class="user-center-card__header__avatar"
+          image="{{userInfo.avatar || defaultAvatarUrl}}"
+          bind:tap="gotoUserEditPage"
+        />
+        <t-image
+          class="gender-icon"
+          src="{{userInfo.gender === USER_GENDER.MALE ? '/static/imgs/male.png' : '/static/imgs/female.png'}}"
+          width="36rpx"
+          height="36rpx"
+        />
+      </view>
       <view class="username-wrapper">
         <view class="username">
           <text bind:tap="gotoUserEditPage">{{userInfo.nickname || '微信用户'}}</text>

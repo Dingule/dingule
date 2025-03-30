@@ -1,5 +1,5 @@
 import Toast from 'tdesign-miniprogram/toast/index';
-import { ACCOUNT_STATUS } from '~/constants/users';
+import { ACCOUNT_STATUS, USER_GENDER } from '~/constants/users';
 const app = getApp();
 
 const status_hans = {
@@ -39,6 +39,7 @@ Component({
     roleStatusTheme: '',
     refreshIconName: 'refresh',
     loading: false,
+    USER_GENDER,
   },
   ready() {
     this.setData({
