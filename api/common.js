@@ -38,7 +38,10 @@ export async function getDataByUserId({ collection, userId }) {
  * @returns {Promise<string>} 上传成功后返回文件ID
  */
 export async function uploadImageByPath(path, tempFilePath) {
-  const res = awaitcloud.callFunction({
+  if (!path || !tempFilePath) {
+    return '';
+  }
+  const res = await cloud.callFunction({
     name: 'uploadImageByPath',
     data: {
       path,

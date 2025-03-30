@@ -4,10 +4,7 @@ cloud.init({ env: process.env.Env });
 exports.main = async (event) => {
   const { path, file } = event;
   if (!path || !file) {
-    return {
-      success: false,
-      message: '参数缺失',
-    };
+    return '';
   }
   const wxContext = cloud.getWXContext();
 

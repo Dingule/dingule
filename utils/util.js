@@ -169,6 +169,23 @@ const toSnakeCase = (obj) => {
   }, {});
 };
 
+/**
+ * 创建一个新数组，包含存在于第一个数组但不存在于其他数组中的值
+ * @param {Array} array - 要检查的数组
+ * @param {...Array} [values] - 要排除的值的数组
+ * @returns {Array} 返回一个新数组，包含筛选后的值
+ * @example
+ * difference([2, 1], [2, 3]) => [1]
+ * difference([2, 1, 2, 3], [3, 4], [2]) => [1]
+ */
+const difference = (array, ...values) => {
+  // 将所有要排除的数组合并为一个集合
+  const excludeSet = new Set([].concat(...values));
+
+  // 过滤原数组，返回不在排除集合中的值
+  return array.filter((item) => !excludeSet.has(item));
+};
+
 module.exports = {
   formatTime,
   priceFormat,
@@ -179,4 +196,5 @@ module.exports = {
   phoneRegCheck,
   toCamelCase,
   toSnakeCase,
+  difference,
 };

@@ -1,7 +1,10 @@
 // pages/usercenter/components/subject-select-popup/index.js
 import { getSubjects } from '~/api/getSubjects';
+import { getSubjectRelations, addSubjectRelations, deleteSubjectRelations } from '~/api/subjectRelations';
+import { USER_ROLE } from '~/constants/users';
 import Toast from 'tdesign-miniprogram/toast/index';
 
+const app = getApp();
 const MAX_SUBJECT_COUNT = 5;
 
 Component({
@@ -20,30 +23,44 @@ Component({
    */
   data: {
     currentSubject: '',
-    subjectValue: [],
+    subjectValue: [], // 组件使用的格式
     subjectValueMap: {}, // 跨专业选项缓存
     subjectOptions: [],
+
+    remoteIdList: [], // 数据库已存在id列表
+    currentIdList: [], // 当前选中的id列表
   },
-  attached() {
-    this.fetchSubjects();
+  async attached() {
+    await this.fetchSubjects();
+    this.getSubjectRelations();
   },
 
   methods: {
+    // 获取已存在的关系列表并初始化组件数据
+    async getSubjectRelations() {
+      const { userInfo } = app.globalData;
+      const { subjectOptions } = this.data;
+
+      const remoteIdList = await getSubjectRelations(userInfo.role === USER_ROLE.STUDENT ? 'student' : 'teacher');
+      const subjectValue = subjectOptions
+        .map((subject) => {
+          const children = subject.children.filter((child) => remoteIdList.includes(child._id));
+          return [subject.value, children.map((child) => child.value)];
+        })
+        .filter((item) => item[1].length);
+
+      this.setData({
+        remoteIdList,
+        subjectValue: subjectValue[0],
+        currentSubject: subjectValue[0]?.[0],
+        subjectValueMap: Object.fromEntries(subjectValue),
+      });
+      this.onConfirm();
+    },
+
     async fetchSubjects() {
       const res = await getSubjects();
-      const subjectOptions = res.map((item) => {
-        return {
-          value: item.name,
-          label: item.name,
-          children: item.children.map((child) => {
-            return {
-              value: child.value,
-              label: child.name,
-            };
-          }),
-        };
-      });
-      this.setData({ subjectOptions });
+      this.setData({ subjectOptions: res });
     },
 
     onChange(e) {
@@ -69,7 +86,7 @@ Component({
             context: this,
             selector: '#t-toast',
             direction: 'column',
-            message: `最多只能选择${MAX_SUBJECT_COUNT}个科目`,
+            message: `最多选择${MAX_SUBJECT_COUNT}个科目`,
             theme: 'warning',
           });
           return;
@@ -87,19 +104,43 @@ Component({
 
     onConfirm() {
       const { subjectValueMap, subjectOptions } = this.data;
+      this.setData({ currentIdList: [] });
 
+      // 根据value数组获取中文供显示
       const valueList = [];
       Object.keys(subjectValueMap).forEach((key) => {
         valueList.push(
           ...subjectValueMap[key].map((value) => {
             const subject = subjectOptions.find((subItem) => subItem.value === key);
             const subSubject = subject.children.find((subItem) => subItem.value === value);
+            this.setData({ currentIdList: [...this.data.currentIdList, subSubject._id] });
             return subSubject.label;
           }),
         );
       });
       this.triggerEvent('confirm', valueList.join('、'));
       this.closePopup();
+    },
+
+    // 父组件保存后调用
+    onSave() {
+      const { roleInfo, userInfo } = app.globalData;
+      const { _id } = roleInfo;
+      const { currentIdList, remoteIdList } = this.data;
+
+      // 与remoteIdList对比出增量数组和减量数组
+      const addList = currentIdList.filter((id) => !remoteIdList.includes(id));
+      const removeList = remoteIdList.filter((id) => !currentIdList.includes(id));
+
+      const promises = [];
+      const role = userInfo.role === USER_ROLE.STUDENT ? 'student' : 'teacher';
+      if (addList.length) {
+        promises.push(addSubjectRelations(role, _id, addList));
+      }
+      if (remoteIdList.length) {
+        promises.push(deleteSubjectRelations(role, removeList));
+      }
+      return Promise.all(promises);
     },
 
     closePopup() {

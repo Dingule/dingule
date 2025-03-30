@@ -7,7 +7,13 @@
     space-evenly="{{false}}"
     bind:change="tabChangeHandle"
   >
-    <t-tab-panel wx:for="{{subjects}}" wx:for-index="index" wx:key="index" label="{{item.name}}" value="{{item.name}}">
+    <t-tab-panel
+      wx:for="{{subjects}}"
+      wx:for-index="index"
+      wx:key="index"
+      label="{{item.label}}"
+      value="{{item.label}}"
+    >
       <view class="side-bar-wrapper">
         <t-side-bar value="{{sideBarIndex}}" bind:change="onSideBarChange">
           <t-side-bar-item
@@ -15,7 +21,7 @@
             wx:for-item="subItem"
             wx:key="label"
             value="{{index}}"
-            label="{{subItem.name}}"
+            label="{{subItem.label}}"
           />
         </t-side-bar>
         <view class="content" style="transform: translateY(-{{sideBarIndex * 100}}%)">
@@ -29,7 +35,7 @@
             scroll-with-animation
             show-scrollbar="{{false}}"
           >
-            <view class="title">{{subItem.name}}</view>
+            <view class="title">{{subItem.label}}</view>
             <view>Hello SideBar</view>
           </scroll-view>
         </view>

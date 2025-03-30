@@ -225,7 +225,7 @@ Page({
   async afterSave(isLogin, personInfo) {
     app.globalData.isLogin = true;
     app.globalData.userInfo = personInfo;
-    app.globalData.userInfoNeedRefresh = true;
+    app.globalData.userInfoNeedRefresh = true; // 强制用户中心页刷新
 
     wx.setStorageSync('userInfo', personInfo);
     wx.setStorageSync('isLogin', true);

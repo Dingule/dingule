@@ -3,9 +3,9 @@ const app = getApp();
 export async function getSubjects() {
   const { data } = await app.models.subjects.list({
     select: {
-      name: true,
-      subject: true,
+      label: true,
       value: true,
+      subject: true,
     },
     orderBy: [{ order: 'asc' }],
   });
@@ -18,10 +18,11 @@ export async function getSubjects() {
     }
     subjectMap[item.subject].push(item);
   });
-  const subjects = Object.keys(subjectMap).map((subjectName) => {
+  const subjects = Object.keys(subjectMap).map((label) => {
     return {
-      name: subjectName,
-      children: subjectMap[subjectName],
+      label,
+      value: label,
+      children: subjectMap[label],
     };
   });
 

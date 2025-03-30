@@ -26,7 +26,7 @@
             arrow
             hover
             required
-            note="{{EDUCATION_BACKGROUND_ZH[teacherInfo.eduBackground] || '请选择'}}"
+            note="{{EDUCATION_BACKGROUND_ZH[teacherInfo.edu_background] || '请选择'}}"
             bind:tap="showEduPicker"
           />
           <t-cell title="学校名称" required>
@@ -61,21 +61,21 @@
             <t-radio-group
               slot="note"
               class="radio-group"
-              value="{{teacherInfo.isGraduated}}"
+              value="{{teacherInfo.is_graduate}}"
               bind:change="onValueChange"
-              data-field="isGraduated"
+              data-field="is_graduate"
             >
               <t-radio value="{{true}}" label="已毕业" />
               <t-radio value="{{false}}" label="在读" />
             </t-radio-group>
           </t-cell>
-          <t-cell wx:if="{{!teacherInfo.isGraduated}}" title="是否已有学位">
+          <t-cell wx:if="{{!teacherInfo.is_graduate}}" title="是否已有学位">
             <t-radio-group
               slot="note"
               class="radio-group"
-              value="{{teacherInfo.hasDegree}}"
+              value="{{teacherInfo.has_degree}}"
               bind:change="onValueChange"
-              data-field="hasDegree"
+              data-field="has_degree"
             >
               <t-radio value="{{true}}" label="是" />
               <t-radio value="{{false}}" label="否" />
@@ -85,7 +85,7 @@
 
         <t-cell-group title="证件上传">
           <t-cell
-            wx:if="{{!teacherInfo.isGraduated}}"
+            wx:if="{{!teacherInfo.is_graduate}}"
             required
             title="学生证照片"
             class="title-center__cell"
@@ -95,11 +95,11 @@
               slot="note"
               max="{{1}}"
               gridConfig="{{gridConfig}}"
-              files="{{teacherInfo.studentCard ? [{url: teacherInfo.studentCard}] : []}}"
+              files="{{teacherInfo.student_card ? [{url: teacherInfo.student_card}] : []}}"
               media-type="{{ ['image'] }}"
               bind:success="onUploadSuccess"
               bind:remove="onUploadRemove"
-              data-field="studentCard"
+              data-field="student_card"
             />
           </t-cell>
           <t-cell
@@ -107,7 +107,7 @@
             title="毕业证书"
             description="请上传毕业证书照片"
             class="title-center__cell"
-            wx:if="{{teacherInfo.hasDegree || teacherInfo.isGraduated}}"
+            wx:if="{{teacherInfo.has_degree || teacherInfo.is_graduate}}"
           >
             <t-upload
               slot="note"
@@ -135,12 +135,12 @@
               slot="note"
               borderless
               maxlength="6"
-              value="{{teacherInfo.realName}}"
+              value="{{teacherInfo.real_name}}"
               placeholder="请输入真实姓名"
               bind:change="onValueChange"
-              data-field="realName"
-              status="{{formValidation.realName.status}}"
-              tips="{{formValidation.realName.tips}}"
+              data-field="real_name"
+              status="{{formValidation.real_name.status}}"
+              tips="{{formValidation.real_name.tips}}"
             />
           </t-cell>
           <t-cell title="身份证号" required>
@@ -148,12 +148,12 @@
               slot="note"
               borderless
               type="idcard"
-              value="{{teacherInfo.idCardNo}}"
+              value="{{teacherInfo.id_card_no}}"
               placeholder="请输入身份证号码"
               bind:change="onValueChange"
-              data-field="idCardNo"
-              status="{{formValidation.idCardNo.status}}"
-              tips="{{formValidation.idCardNo.tips}}"
+              data-field="id_card_no"
+              status="{{formValidation.id_card_no.status}}"
+              tips="{{formValidation.id_card_no.tips}}"
             />
           </t-cell>
           <t-cell required title="身份证正面照" class="title-center__cell" description="请上传身份证人像面照片">
@@ -162,10 +162,10 @@
               max="{{1}}"
               gridConfig="{{gridConfig}}"
               media-type="{{ ['image'] }}"
-              files="{{teacherInfo.idCardFront ? [{url: teacherInfo.idCardFront}] : []}}"
+              files="{{teacherInfo.id_card_front ? [{url: teacherInfo.id_card_front}] : []}}"
               bind:success="onUploadSuccess"
               bind:remove="onUploadRemove"
-              data-field="idCardFront"
+              data-field="id_card_front"
             />
           </t-cell>
         </t-cell-group>
@@ -183,8 +183,9 @@
             title="科目"
             class="none-flex__cell title-center__cell"
             arrow
+            required
             bind:tap="showSubjectPopup"
-            note="{{teacherSubject || '请选择擅长科目'}}"
+            note="{{teacherInfo.subjects || '请选择擅长科目'}}"
           />
           <t-cell title="个人简介">
             <t-textarea
@@ -202,7 +203,7 @@
 
         <view class="button-group">
           <t-button theme="primary" variant="outline" block size="medium" bind:tap="prevStep">上一步</t-button>
-          <t-button theme="primary" block size="medium" bind:tap="submit">提交</t-button>
+          <t-button theme="primary" block size="medium" bind:tap="submit">{{isEdit ? '保存' : '提交'}}</t-button>
         </view>
       </view>
     </view>
@@ -211,7 +212,7 @@
 
 <t-picker
   visible="{{eduBgPickerVisible}}"
-  value="{{teacherInfo.eduBackground}}"
+  value="{{teacherInfo.edu_background}}"
   title="选择学历"
   cancelBtn="取消"
   confirmBtn="确认"

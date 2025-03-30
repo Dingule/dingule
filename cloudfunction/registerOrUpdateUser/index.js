@@ -26,6 +26,7 @@ exports.main = async (event) => {
       return { success: true, message: '用户注册成功', data: result };
     }
     if (action === 'update') {
+      delete userData._id;
       // 更新用户数据
       const result = await usersCollection.where({ openId: wxContext.OPENID }).update({
         data: {

@@ -1,10 +1,16 @@
 import Toast, { hideToast } from 'tdesign-miniprogram/toast/index';
-import { USER_ROLE } from 'constants/users';
+import { USER_ROLE } from '~/constants/users';
 
 const app = getApp();
 
 const menuData = [
   [
+    {
+      title: '教师信息',
+      tit: '',
+      url: '/pages/usercenter/teacher-info/index',
+      type: 'teacher-info',
+    },
     {
       title: '消息中心',
       tit: '',
@@ -116,7 +122,7 @@ Page({
         direction: 'column',
         message: '加载中...',
       });
-      await app.loadUserInfo();
+      await app.loadUserInfo(true);
       hideToast({ context: this, selector: '#t-toast' });
     }
 
@@ -135,9 +141,13 @@ Page({
   },
 
   onClickCell({ currentTarget }) {
-    const { type } = currentTarget.dataset;
+    const { type, url } = currentTarget.dataset;
 
     switch (type) {
+      case 'teacher-info': {
+        wx.navigateTo({ url });
+        break;
+      }
       case 'notification': {
         Toast({
           context: this,

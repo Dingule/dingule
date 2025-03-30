@@ -55,7 +55,7 @@ App({
     let userInfo = wx.getStorageSync('userInfo') || {};
     let roleInfo = wx.getStorageSync('roleInfo') || {};
 
-    if (!Object.keys(userInfo).length || forceRefresh) {
+    if (!Object.keys(userInfo).length || forceRefresh || this.globalData.userInfoNeedRefresh) {
       const res = await wx.cloud.callFunction({ name: 'login' });
       this.globalData.isLogin = Boolean(res.result?.success);
       this.globalData.userInfoNeedRefresh = false;
@@ -69,8 +69,10 @@ App({
         const roleRes = await getDataByUserId({
           collection: userInfo.role === USER_ROLE.STUDENT ? 'students' : 'teachers',
           userId: userInfo._id,
+        }).catch(() => {
+          // ❗2.0函数，经常挂，待优化；如果查询失败，则不更新角色信息
         });
-        roleInfo = roleRes.data.data;
+        roleInfo = roleRes?.data?.data || roleInfo;
       }
 
       wx.setStorageSync('userInfo', userInfo);

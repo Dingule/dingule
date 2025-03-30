@@ -24,6 +24,7 @@
         arrow="{{!xitem.icon}}"
         note="{{xitem.tit}}"
         data-type="{{xitem.type}}"
+        data-url="{{xitem.url}}"
         bordered="{{false}}"
         bind:click="onClickCell"
         t-class="t-cell-padding"
