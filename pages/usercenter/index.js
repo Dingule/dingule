@@ -9,7 +9,15 @@ const menuData = [
       title: '教师信息',
       tit: '',
       url: '/pages/usercenter/teacher-info/index',
-      type: 'teacher-info',
+      type: 'navigation',
+      role: USER_ROLE.TEACHER,
+    },
+    {
+      title: '学生信息',
+      tit: '',
+      url: '/pages/usercenter/student-info/index',
+      type: 'navigation',
+      role: USER_ROLE.STUDENT,
     },
     {
       title: '消息中心',
@@ -144,7 +152,7 @@ Page({
     const { type, url } = currentTarget.dataset;
 
     switch (type) {
-      case 'teacher-info': {
+      case 'navigation': {
         wx.navigateTo({ url });
         break;
       }

@@ -1,14 +1,8 @@
 import Toast from 'tdesign-miniprogram/toast/index';
-import { ACCOUNT_STATUS, USER_GENDER } from '~/constants/users';
+import { ACCOUNT_STATUS, ACCOUNT_STATUS_ZH, USER_GENDER } from '~/constants/users';
 const app = getApp();
 
-const status_hans = {
-  [ACCOUNT_STATUS.PENDING]: '审核中',
-  [ACCOUNT_STATUS.APPROVED]: '已认证',
-  [ACCOUNT_STATUS.REJECTED]: '未通过',
-  [ACCOUNT_STATUS.DISABLED]: '禁用',
-};
-const status_themes = {
+const STATUS_THEME = {
   [ACCOUNT_STATUS.PENDING]: 'primary',
   [ACCOUNT_STATUS.APPROVED]: 'success',
   [ACCOUNT_STATUS.REJECTED]: 'warning',
@@ -26,26 +20,21 @@ Component({
     },
     userInfo: {
       type: Object,
-      value: {},
+      default: {},
     },
     roleInfo: {
       type: Object,
-      value: {},
+      default: {},
     },
   },
   data: {
     defaultAvatarUrl: 'https://cdn-we-retail.ym.tencent.com/miniapp/usercenter/icon-user-center-avatar@2x.png',
-    roleStatusZh: '',
-    roleStatusTheme: '',
     refreshIconName: 'refresh',
     loading: false,
+
+    ACCOUNT_STATUS_ZH,
+    STATUS_THEME,
     USER_GENDER,
-  },
-  ready() {
-    this.setData({
-      roleStatusZh: status_hans[this.data.roleInfo.status] || '未认证',
-      roleStatusTheme: status_themes[this.data.roleInfo.status] || '',
-    });
   },
   methods: {
     gotoUserEditPage() {

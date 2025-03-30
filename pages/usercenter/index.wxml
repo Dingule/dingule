@@ -19,6 +19,7 @@
         wx:for="{{item}}"
         wx:for-item="xitem"
         wx:for-index="xindex"
+        wx:if="{{xitem.role ? userInfo.role === xitem.role : true}}"
         wx:key="xindex"
         title="{{xitem.title}}"
         arrow="{{!xitem.icon}}"

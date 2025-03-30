@@ -18,6 +18,13 @@ export const ACCOUNT_STATUS = {
   DISABLED: '3', // 禁用
 };
 
+export const ACCOUNT_STATUS_ZH = {
+  [ACCOUNT_STATUS.PENDING]: '审核中',
+  [ACCOUNT_STATUS.APPROVED]: '已认证',
+  [ACCOUNT_STATUS.REJECTED]: '未通过',
+  [ACCOUNT_STATUS.DISABLED]: '禁用',
+};
+
 export const EDUCATION_BACKGROUND = {
   PRIMARY: '1',
   JUNIOR: '2',

@@ -20,12 +20,12 @@
           <text bind:tap="gotoUserEditPage">{{userInfo.nickname || '微信用户'}}</text>
           <t-tag
             wx:if="{{userInfo.role}}"
-            theme="{{roleStatusTheme}}"
+            theme="{{STATUS_THEME[roleInfo.status] || ''}}"
             class="status-tag"
             size="small"
             variant="outline"
           >
-            {{roleStatusZh}}
+            {{ACCOUNT_STATUS_ZH[roleInfo.status] || '未认证'}}
           </t-tag>
           <t-tag wx:else variant="outline" class="status-tag" size="small" bind:tap="showRolePopup">去认证</t-tag>
           <t-button
