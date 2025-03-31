@@ -6,6 +6,12 @@ export const USER_ROLE = {
   TEACHER: '2',
 };
 
+export const USER_ROLE_ZH = {
+  [USER_ROLE.UNSET]: '未设置',
+  [USER_ROLE.STUDENT]: '学生',
+  [USER_ROLE.TEACHER]: '教师',
+};
+
 export const USER_GENDER = {
   MALE: '1',
   FEMALE: '2',

@@ -41,6 +41,11 @@ Component({
       const { userInfo } = app.globalData;
       const { subjectOptions } = this.data;
 
+      // 用户未注册，不用获取角色科目关系
+      if (![USER_ROLE.STUDENT, USER_ROLE.TEACHER].includes(userInfo.role)) {
+        return;
+      }
+
       const remoteIdList = await getSubjectRelations(userInfo.role === USER_ROLE.STUDENT ? 'student' : 'teacher');
       const subjectValue = subjectOptions
         .map((subject) => {

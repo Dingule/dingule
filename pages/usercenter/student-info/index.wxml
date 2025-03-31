@@ -1,2 +1,62 @@
 <!--pages/usercenter/student-info/index.wxml-->
-<text>pages/usercenter/student-info/index.wxml</text>
+<view class="student-info">
+  <t-cell-group>
+    <!-- 年级选择 -->
+    <t-cell
+      title="年级"
+      arrow
+      note="{{studentInfo.grade ? GRADE_ZH[studentInfo.grade] : '请选择'}}"
+      bind:tap="showGradePicker"
+      required
+    />
+
+    <!-- 科目选择 -->
+    <t-cell
+      title="科目"
+      arrow
+      note="{{studentInfo.subjects || '选择想学的科目'}}"
+      bind:tap="showSubjectPopup"
+      required
+    />
+
+    <!-- 个人简介 -->
+    <t-cell title="个人简介">
+      <t-textarea
+        slot="description"
+        style="width: 100%"
+        value="{{studentInfo.intro}}"
+        placeholder="请介绍一下你的学习情况、兴趣爱好等，让老师更了解你"
+        maxlength="500"
+        indicator
+        bind:change="onIntroChange"
+      />
+    </t-cell>
+  </t-cell-group>
+
+  <!-- 提交按钮 -->
+  <view class="button-wrapper">
+    <t-button theme="primary" size="large" block bind:tap="submit">{{isEdit ? '保 存' : '提 交'}}</t-button>
+  </view>
+</view>
+<!-- 年级选择器 -->
+<t-picker
+  visible="{{gradePickerVisible}}"
+  value="{{gradeValue}}"
+  title="选择年级"
+  cancelBtn="取消"
+  confirmBtn="确认"
+  bindcancel="onGradePickerCancel"
+  bindconfirm="onGradePickerConfirm"
+>
+  <t-picker-item options="{{GRADE_GROUPS}}" />
+</t-picker>
+
+<!-- 科目选择弹窗 -->
+<subject-select-popup
+  id="subject-select-popup"
+  visible="{{subjectPopupVisible}}"
+  value="{{studentInfo.subjects}}"
+  bind:close="obSubjectClose"
+  bind:confirm="onSubjectConfirm"
+/>
+<t-toast id="t-toast" />

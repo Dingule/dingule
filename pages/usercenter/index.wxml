@@ -23,7 +23,6 @@
         wx:key="xindex"
         title="{{xitem.title}}"
         arrow="{{!xitem.icon}}"
-        note="{{xitem.tit}}"
         data-type="{{xitem.type}}"
         data-url="{{xitem.url}}"
         bordered="{{false}}"
@@ -46,7 +45,7 @@
 
     <view class="content">
       <t-image
-        wx:if="{{userInfo.gender === 1}}"
+        wx:if="{{userInfo.gender === USER_GENDER.MALE}}"
         src="/static/imgs/stu_male.png"
         mode="widthFix"
         width="330rpx"
@@ -55,14 +54,14 @@
       />
       <t-image
         wx:else
-        src="/static/imgs/stu_male.png"
+        src="/static/imgs/stu_female.png"
         mode="widthFix"
         width="330rpx"
         data-role="{{USER_ROLE.STUDENT}}"
         bind:tap="onRoleSelect"
       />
       <t-image
-        wx:if="{{userInfo.gender === 1}}"
+        wx:if="{{userInfo.gender === USER_GENDER.MALE}}"
         src="/static/imgs/tea_male.png"
         mode="widthFix"
         width="330rpx"
@@ -71,7 +70,7 @@
       />
       <t-image
         wx:else
-        src="/static/imgs/tea_male.png"
+        src="/static/imgs/tea_female.png"
         mode="widthFix"
         width="330rpx"
         data-role="{{USER_ROLE.TEACHER}}"

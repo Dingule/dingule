@@ -19,9 +19,9 @@
         <view class="username">
           <text bind:tap="gotoUserEditPage">{{userInfo.nickname || '微信用户'}}</text>
           <t-tag
-            wx:if="{{userInfo.role}}"
+            wx:if="{{isRoleRegistered}}"
             theme="{{STATUS_THEME[roleInfo.status] || ''}}"
-            class="status-tag"
+            style="background-color: transparent !important"
             size="small"
             variant="outline"
           >
@@ -29,6 +29,7 @@
           </t-tag>
           <t-tag wx:else variant="outline" class="status-tag" size="small" bind:tap="showRolePopup">去认证</t-tag>
           <t-button
+            wx:if="{{isRoleRegistered}}"
             variant="text"
             size="extra-small"
             loading="{{loading}}"
@@ -38,9 +39,7 @@
             bind:tap="refresh"
           />
         </view>
-        <view class="role-wrapper" wx:if="{{userInfo.role}}">
-          您当前的身份：{{userInfo.role === '1' ? '学生' : '教师'}}
-        </view>
+        <view class="role-wrapper" wx:if="{{isRoleRegistered}}"> 您当前的身份：{{USER_ROLE_ZH[userInfo.role]}} </view>
       </view>
     </view>
   </block>

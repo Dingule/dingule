@@ -93,7 +93,7 @@ Page({
     }
 
     wx.setNavigationBarTitle({ title: `教师${isEdit ? '信息' : '认证'}` });
-    this.setData({ isEdit, 'teacherInfo.user': userInfo._id });
+    this.setData({ isEdit, 'teacherInfo.user_id': userInfo._id });
   },
 
   // 切换步骤
@@ -422,6 +422,7 @@ Page({
         ...teacherInfo,
         _id: id,
       };
+      app.globalData.userInfo.role = USER_ROLE.TEACHER;
       // 首次注册更新用户角色信息
       await wx.cloud.callFunction({
         name: 'registerOrUpdateUser',

@@ -1,5 +1,5 @@
 import Toast, { hideToast } from 'tdesign-miniprogram/toast/index';
-import { USER_ROLE } from '~/constants/users';
+import { USER_ROLE, USER_GENDER } from '~/constants/users';
 
 const app = getApp();
 
@@ -7,35 +7,34 @@ const menuData = [
   [
     {
       title: '教师信息',
-      tit: '',
       url: '/pages/usercenter/teacher-info/index',
       type: 'navigation',
       role: USER_ROLE.TEACHER,
+      icon: '',
     },
     {
       title: '学生信息',
-      tit: '',
       url: '/pages/usercenter/student-info/index',
       type: 'navigation',
       role: USER_ROLE.STUDENT,
+      icon: '',
     },
     {
       title: '消息中心',
-      tit: '',
       url: '',
       type: 'notification',
+      icon: '',
     },
   ],
   [
     {
       title: '帮助中心',
-      tit: '',
       url: '',
       type: 'help-center',
+      icon: '',
     },
     {
       title: '客服热线',
-      tit: '',
       url: '',
       type: 'service',
       icon: 'service',
@@ -93,7 +92,9 @@ Page({
     customerServiceInfo: {},
     showKefu: true,
     versionNo: '',
+
     USER_ROLE,
+    USER_GENDER,
   },
 
   onLoad() {
@@ -111,6 +112,7 @@ Page({
   checkUserRole() {
     const { isLogin, userInfo } = app.globalData;
     if (!isLogin || +userInfo.role) {
+      this.setData({ rolePopupVisible: false });
       return;
     }
     let timer = setTimeout(() => {

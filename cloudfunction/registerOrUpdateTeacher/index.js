@@ -17,6 +17,7 @@ exports.main = async (event) => {
       const result = await teachersCollection.add({
         data: {
           ...teacherInfo,
+          status: '0',
           createdAt: db.serverDate(),
           updatedAt: db.serverDate(),
           _openid: wxContext.OPENID,

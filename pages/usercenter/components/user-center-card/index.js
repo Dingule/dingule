@@ -1,5 +1,5 @@
 import Toast from 'tdesign-miniprogram/toast/index';
-import { ACCOUNT_STATUS, ACCOUNT_STATUS_ZH, USER_GENDER } from '~/constants/users';
+import { USER_ROLE, USER_ROLE_ZH, ACCOUNT_STATUS, ACCOUNT_STATUS_ZH, USER_GENDER } from '~/constants/users';
 const app = getApp();
 
 const STATUS_THEME = {
@@ -35,6 +35,18 @@ Component({
     ACCOUNT_STATUS_ZH,
     STATUS_THEME,
     USER_GENDER,
+    USER_ROLE,
+    USER_ROLE_ZH,
+    isRoleRegistered: false,
+  },
+  observers: {
+    'userInfo.role': function (role) {
+      if (!role) return;
+
+      this.setData({
+        isRoleRegistered: [USER_ROLE.STUDENT, USER_ROLE.TEACHER].includes(role),
+      });
+    },
   },
   methods: {
     gotoUserEditPage() {
