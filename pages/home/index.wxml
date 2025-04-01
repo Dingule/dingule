@@ -12,9 +12,16 @@
   </view>
 </view>
 <view class="home-page-container">
-  <view>
-    <t-button theme="primary" size="large">Home Sweet Home</t-button>
-  </view>
+  <navi-group />
+  <text class="recommend-text"> 推荐教师 </text>
+  <teacher-card
+    wx:for="{{teacherList}}"
+    wx:for-item="teacher"
+    wx:key="id"
+    data="{{teacher}}"
+    bind:cardtap="onTeacherCardTap"
+  />
   <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
-  <t-toast id="t-toast" />
 </view>
+
+<t-toast id="t-toast" />

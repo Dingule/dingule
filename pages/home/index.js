@@ -1,27 +1,28 @@
 import Toast from 'tdesign-miniprogram/toast/index';
+import { getTeacherList } from '~/api/teachers';
 
 Page({
   data: {
-    imgSrcs: [],
-    tabList: [],
-    goodsList: [],
-    goodsListLoadStatus: 0,
-    pageLoading: false,
+    teacherList: [],
+  },
+
+  onLoad() {
+    this.fetchTeacherList();
   },
 
   onShow() {
     this.getTabBar().init();
-    this.setData({
-      pageLoading: true,
-    });
-    setTimeout(() => {
-      this.setData({
-        pageLoading: false,
-      });
-    }, 1000);
   },
 
-  onLoad() {},
+  async fetchTeacherList() {
+    const teacherList = await getTeacherList();
+    console.log('teacherList :>> ', teacherList);
+    this.setData({ teacherList });
+  },
+
+  onTeacherCardTap(e) {
+    console.log('e :>> ', e);
+  },
 
   onReachBottom() {
     Toast({

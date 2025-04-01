@@ -10,6 +10,8 @@
     "t-icon": "tdesign-miniprogram/icon/icon",
     "t-toast": "tdesign-miniprogram/toast/toast",
     "t-button": "tdesign-miniprogram/button/button",
+    "navi-group": "./components/navi-group/index",
+    "teacher-card": "/components/teacher-card/index",
     "load-more": "/components/load-more/index"
   }
 }

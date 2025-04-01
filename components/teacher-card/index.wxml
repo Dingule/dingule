@@ -1,0 +1,30 @@
+<!--components/teacher-card/index.wxml-->
+<view class="teacher-card" bindtap="onTapCard">
+  <view class="basic-info-container">
+    <view class="avatar-wrapper">
+      <image class="avatar" src="{{data.avatar || defaultAvatar}}" mode="aspectFill" />
+      <t-image
+        class="gender-icon"
+        src="{{userInfo.gender === USER_GENDER.MALE ? '/static/imgs/male.png' : '/static/imgs/female.png'}}"
+        width="36rpx"
+        height="36rpx"
+      />
+    </view>
+    <view>
+      <view class="username">{{data.real_name}}</view>
+      <view class="desc">{{ageGroup}} | {{EDUCATION_BACKGROUND_ZH[data.edu_background]}}</view>
+    </view>
+  </view>
+
+  <view class="school-wrapper">
+    <t-icon name="museum-1" size="42rpx" color="#999" />
+    <text class="school">{{data.school}} · {{data.major}}</text>
+  </view>
+
+  <view class="other-info-container">
+    <view class="tags">
+      <text class="tag" wx:for="{{data.subjects}}" wx:key="*this">{{item}}</text>
+    </view>
+    <view class="description">{{data.intro}}</view>
+  </view>
+</view>
