@@ -8,6 +8,7 @@
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-user-center-card": "./components/user-center-card/index",
     "t-order-group": "./components/order-group/index",
+    "t-course-group": "./components/course-group/index",
     "t-image": "tdesign-miniprogram/image/image",
     "t-toast": "tdesign-miniprogram/toast/toast"
   },

@@ -87,12 +87,12 @@ Page({
     showMakePhone: false, // 客服热线弹框
     userInfo: {},
     roleInfo: {},
-    menuData,
     orderTagInfos,
     customerServiceInfo: {},
     showKefu: true,
     versionNo: '',
 
+    menuData,
     USER_ROLE,
     USER_GENDER,
   },

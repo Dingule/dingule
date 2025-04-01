@@ -1,0 +1,13 @@
+<!--pages/usercenter/components/course-group/index.wxml-->
+<t-grid t-class="course-group-wrapper">
+  <t-grid-item
+    wx:for="{{gridList}}"
+    wx:for-item="gridItem"
+    wx:key="type"
+    text="{{gridItem.name}}"
+    icon="{{gridItem.icon}}"
+    class="grid-item {{gridItem.type === 'all' ? 'split-line' : ''}}"
+    data-data="{{gridItem}}"
+    bindclick="onEleClick"
+  />
+</t-grid>

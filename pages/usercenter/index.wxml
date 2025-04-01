@@ -10,6 +10,9 @@
   bind:showRolePopup="onRoleVisibleChange"
 />
 <view class="content-wrapper">
+  <view class="course-group-wrapper">
+    <t-course-group />
+  </view>
   <view class="order-group-wrapper">
     <t-order-group orderTagInfos="{{orderTagInfos}}" bind:onClickTop="jumpOrderList" bind:onClickItem="jumpOrderList" />
   </view>
