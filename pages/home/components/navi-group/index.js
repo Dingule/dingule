@@ -1,4 +1,6 @@
 // pages/usercenter/components/course-group/index.js
+import { USER_ROLE } from '~/constants/users';
+const app = getApp();
 Component({
   /**
    * 组件的属性列表
@@ -11,18 +13,25 @@ Component({
   data: {
     gridList: [
       {
-        name: '找老师',
+        name: '附近老师',
         icon: 'user-search',
         url: '',
+        role: USER_ROLE.STUDENT,
       },
       {
-        name: '找学生',
+        name: '附近学生',
         icon: 'user-search',
         url: '',
+        role: USER_ROLE.TEACHER,
       },
       {
         name: '找课程',
         icon: 'book-open',
+        url: '',
+      },
+      {
+        name: 'AI定制',
+        icon: 'system-sum',
         url: '',
       },
       {
@@ -31,6 +40,13 @@ Component({
         url: '',
       },
     ],
+
+    userInfo,
+    USER_ROLE,
+  },
+
+  attached() {
+    this.setData({ userInfo: app.globalData.userInfo });
   },
 
   methods: {

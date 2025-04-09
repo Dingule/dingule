@@ -3,6 +3,7 @@
   <t-grid-item
     wx:for="{{gridList}}"
     wx:for-item="gridItem"
+    wx:if="{{gridItem.role ? gridItem.role === userInfo.role : true}}"
     wx:key="index"
     class="grid-item"
     text="{{gridItem.name}}"

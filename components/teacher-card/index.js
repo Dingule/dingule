@@ -1,5 +1,5 @@
 // components/teacher-card/index.js
-import { EDUCATION_BACKGROUND_ZH } from '~/constants/users';
+import { EDUCATION_BACKGROUND_ZH, USER_GENDER } from '~/constants/users';
 
 Component({
   /**   * 组件的属性列表   */
@@ -12,6 +12,7 @@ Component({
   data: {
     defaultAvatar: 'https://cdn-we-retail.ym.tencent.com/miniapp/usercenter/icon-user-center-avatar@2x.png',
     EDUCATION_BACKGROUND_ZH,
+    USER_GENDER,
     ageGroup: '',
   },
   observers: {

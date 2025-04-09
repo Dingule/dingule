@@ -29,7 +29,7 @@
             note="{{EDUCATION_BACKGROUND_ZH[teacherInfo.edu_background] || '请选择'}}"
             bind:tap="showEduPicker"
           />
-          <t-cell title="学校名称" required>
+          <t-cell title="学校" required>
             <t-input
               slot="note"
               align="right"

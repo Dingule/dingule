@@ -21,7 +21,7 @@
     data="{{teacher}}"
     bind:cardtap="onTeacherCardTap"
   />
-  <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
+  <load-more list-is-empty="{{!teacherList.length}}" status="{{2}}" />
 </view>
 
 <t-toast id="t-toast" />

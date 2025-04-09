@@ -5,7 +5,7 @@
       <image class="avatar" src="{{data.avatar || defaultAvatar}}" mode="aspectFill" />
       <t-image
         class="gender-icon"
-        src="{{userInfo.gender === USER_GENDER.MALE ? '/static/imgs/male.png' : '/static/imgs/female.png'}}"
+        src="{{data.gender === USER_GENDER.MALE ? '/static/imgs/male.png' : '/static/imgs/female.png'}}"
         width="36rpx"
         height="36rpx"
       />
